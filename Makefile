@@ -6,7 +6,7 @@
 #    By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 19:24:47 by lumarque          #+#    #+#              #
-#    Updated: 2024/06/04 16:22:48 by lumarque         ###   ########.fr        #
+#    Updated: 2024/06/04 22:54:20 by lumarque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,20 +18,10 @@ FLAGS = -Wall -Wextra -Werror
 MAKE = make -C
 LIBFT_PATH = libft
 LFLAGS = -L ${LIBFT_PATH} -lft -lreadline
+DN = > /dev/null
 
 
-SRC =	./src/philo.c \
-		./src/utils.c \
-		./src/init_data.c \
-		./src/time.c \
-		./src/monitor.c \
-		./src/eat_1.c \
-		./src/eat_2.c \
-		./src/get_funct1.c \
-		./src/get_funct2.c \
-		./src/set_funct.c \
-		./src/routine.c \
-		./src/check_input.c \
+SRC =	./src/minishell.c
 
 
 # ------------------------------ Colors ------------------------------
@@ -47,7 +37,7 @@ NO_COLOR	=	\033[0m
 
 COMP_START	=	echo "\n $(BOLD_YELLOW)Make: $(NO_COLOR)Starting the compilation...\n"
 
-READY		=	echo "\n $(BOLD_GREEN)Ready$(NO_COLOR) : The program $(BOLD_CYAN) minishell $(NO_COLOR) compiled!\n"
+READY		=	echo "\n $(BOLD_GREEN)Ready$(NO_COLOR) : The program $(BOLD_CYAN) minishell $(NO_COLOR)has been compiled!\n"
 
 CLEANED		=	echo "\n $(BOLD_PURPLE)Clean: $(NO_COLOR)Removed all the \".o\" files \n"
 
@@ -61,20 +51,20 @@ OBJ = ${SRC:.c=.o}
 
 ${NAME}: ${OBJ}
 		@$(COMP_START)
-		${MAKE} ${LIBFT_PATH}
-		@echo "Libft has been compiled\n" 
+		@${MAKE} ${LIBFT_PATH} $(DN)
+		@echo "\n $(BOLD_GREEN)Libft has been compiled!\n" 
 		@${CC} ${OBJ} ${LFLAGS} -o ${NAME}
 		@$(READY) 
 
 all: ${NAME}
 
 clean:
-	@${MAKE} ${LIBFT_PATH} clean
+	@${MAKE} ${LIBFT_PATH} clean $(DN)
 	@${RM} ${OBJ}
 	@$(CLEANED)
 
 fclean: clean
-	@${MAKE} ${LIBFT_PATH} fclean
+	@${MAKE} ${LIBFT_PATH} fclean $(DN)
 	@${RM} ${NAME}
 	@$(FCLEANED)
 

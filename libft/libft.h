@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:47:30 by lumarque          #+#    #+#             */
-/*   Updated: 2024/02/19 15:49:32 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/06/04 22:57:40 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void		ft_lstdelone(t_list *lst, void (*del)(void*));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 void		ft_striteri(char *s, void (*f)(unsigned int, char*));
 
-//t_list		*ft_lstlast(t_list *lst);
+t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstnew(void *content);
 void		ft_free_array(char **array);
@@ -67,7 +67,7 @@ char		*ft_itoa(int n);
 
 int			ft_atoi(const char *str);
 int			ft_memcmp(const void *s1, const void *s2, size_t n);
-//int			ft_lstsize(t_list *lst);
+int			ft_lstsize(t_list *lst);
 int			ft_isalpha(int c);
 int			ft_isdigit(int c);
 int			ft_isalnum(int c);

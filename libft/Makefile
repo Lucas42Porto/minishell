@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lucas <lucas@student.42.fr>                +#+  +:+       +#+         #
+#    By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/16 14:47:25 by lumarque          #+#    #+#              #
-#    Updated: 2024/02/08 23:34:29 by lucas            ###   ########.fr        #
+#    Updated: 2024/06/04 22:56:29 by lumarque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,25 +27,25 @@ SRC = ft_atoi.c ft_strlen.c ft_bzero.c ft_memset.c ft_calloc.c ft_isalnum.c \
 		ft_strmapi.c ft_striteri.c ft_itoa.c ft_strtrim.c ft_free_array.c\
 		ft_printf.c ft_print_alpha.c ft_putnbase.c ft_strclen.c	\
 		./42_get_next_line/get_next_line_bonus.c \
-		./42_get_next_line/get_next_line_utils_bonus.c
-# ft_lstsize.c ft_lstlast.c ft_lstadd_front.c ft_lstadd_back.c \
-# ft_lstnew.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
+		./42_get_next_line/get_next_line_utils_bonus.c \
+		ft_lstsize.c ft_lstlast.c ft_lstadd_front.c ft_lstadd_back.c \
+		ft_lstnew.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
 		
 OBJS = ${SRC:.c=.o}
 
 ${NAME}: ${OBJS}
-	@ ar -rcs ${NAME} ${OBJS} ${INCLUDE}
+	@ar -rcs ${NAME} ${OBJS} ${INCLUDE}
 
 all: ${NAME}
 
 clean: 
-	@ ${RM} ${OBJS}
+	@${RM} ${OBJS}
 
 fclean: clean
-	@ ${RM} ${NAME}
+	@${RM} ${NAME}
 
 tclean: clean
-	@ ${RM} teste 
+	@${RM} teste 
 
 re: fclean all
 
