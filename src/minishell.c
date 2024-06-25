@@ -6,12 +6,15 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 16:28:39 by lumarque          #+#    #+#             */
-/*   Updated: 2024/06/04 16:29:21 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/06/25 00:48:19 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../include/minishell.h"
+
 int main (void)
 {
+	printf("ennv?  %s\n", getenv("USER"));
 	while(1)
 		;
 		return 0;
