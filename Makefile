@@ -6,7 +6,7 @@
 #    By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/07 19:24:47 by lumarque          #+#    #+#              #
-#    Updated: 2024/06/25 00:54:19 by lumarque         ###   ########.fr        #
+#    Updated: 2024/06/04 22:54:20 by lumarque         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,20 +14,14 @@
 NAME = minishell
 CC = cc
 RM = rm -f
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 MAKE = make -C
 LIBFT_PATH = libft
 LFLAGS = -L ${LIBFT_PATH} -lft -lreadline
 DN = > /dev/null
 
 
-SRC =	src/minishell.c \
-		src/builtins/builtins_basic.c \ 
-		src/builtins/builtins_complex.c \ 
-		src/builtins/builtins_export_list.c \ 
-		src/builtins/builtins_export_tmp.c \ 
-		src/builtins/builtins_utils.c
-
+SRC =	$(wildcard src/*.c)
 
 
 # ------------------------------ Colors ------------------------------
