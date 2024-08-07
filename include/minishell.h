@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 16:04:38 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/07 02:17:24 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/07 02:31:14 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,31 @@ void				ms_export(t_shell *shell, t_exec *cmd);
 void				ms_unset(t_shell *shell, t_exec *cmd);
 void				ms_env(t_shell *shell, t_exec *cmd);
 void				ms_exit(t_shell *shell, t_exec *cmd);
+
+//temp rennan
+void	init_env_and_path(t_shell *shell, t_env *env);
+void	extract_paths(t_shell *shell, char *path, int i);
+char 	*get_content_env(t_shell *shell, char *name, int i);
+void	init_env(t_shell *shell, t_env *env, char **tmp, int i);
+void	malloc_name_content(t_env *env, char **envp, int i);
+char	**ft_split_env(char **env, char **result, int *i);
+
+void	ft_exec_cd(char *cmd, char *path, int ntokens);
+void	ft_exec_pwd(char *cmd);
+void	ft_exec_echo(char **cmd_args, char *cmd, int ntokens, int len_cmd);
+void	ft_exec_env(t_shell *shell, char *cmd, int len_cmd, int i);
+void	ft_exec_exit(t_shell *shell, char *cmd, char *arg, int ntokens);
+void	ft_exec_cmd(t_shell *shell, char *line);
+void	ft_skip_space(char **str);
+int		ft_count_tokens(char **cmd_args);
+
+void	ft_error(char *header, char *subheader, char *msg);
+void	free_split(char **split);
+
+void	clean_exit(t_shell *shell, char *exit_code);
+
+int	lexer(t_shell *shell);
+//
 
 // signals
 void				signal_handler(int sig);
