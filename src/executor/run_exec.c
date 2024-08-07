@@ -6,13 +6,13 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/06 11:29:57 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/07 02:25:23 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishel_2.h"
+#include "../../include/minishell.h"
 
-static void	check_execve(t_shell *shell, char *path)
+static void	check_execve_errors(t_shell *shell, char *path)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
 	ft_putstr_fd(path, STDERR_FILENO);
@@ -79,17 +79,17 @@ static void	expand_argv(t_shell *shell, char **argv)
 	expanded = (ft_strchr(argv[0], '$') || ft_strchr(argv[0], '*'));
 	expand_arg(shell, &argv[0]);
 	len = ft_strlen(argv[0]);
-	trim_arg(argv[0]);
-	trim_quotes(argv[0], &len);
+	trim_arg(argv[0]); // Esta função insere um caractere nulo em cada espaço em branco que não está entre aspas. Se na parseexec retiramos os nulos para colocar espaços, aqui fazemos o contrário.
+	trim_quotes(argv[0], &len); // Remover aspas
 	i = 1;
 	tmp = argv[0];
-	while ((tmp < argv[0] + len) && i < (MAXARGS - 1))
+	while ((tmp < argv[0] + len) && i < (MAXARGS - 1)) 
 	{
 		if (*tmp == '\0' && (ft_strcmp(argv[0], "printf") || i != 2))
 			argv[i++] = tmp + 1;
 		tmp++;
 	}
-	if (!argv[0][0] && expanded)
+	if (!argv[0][0] && expanded) // $EMPTY_VAR. Neste caso a função expande, mas verifica que a expansão não expande para lado nenhum uma vez que a variável não existe. Nestes casos dá free e coloca o argumento a NULL.
 	{
 		free(argv[0]);
 		argv[0] = NULL;
@@ -104,7 +104,7 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	expand_argv(shell, cmd->argv);
 	if (!cmd->argv[0])
 		return (g_exit = 0, (void)0);
-	if (check_if_is_builtin(msh, msh->tokens[0]))//
+	if (check_if_is_builtin(shell, cmd)) //(msh, msh->tokens[0])
 	{
 		run_builtin(shell, cmd);
 		return ;
@@ -115,13 +115,13 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	{
 		path = get_path(shell, cmd->argv[0]); // cmd_path = ft_strdup(msh->paths[i]);
 		execve(path, cmd->argv, shell->envp);
-		check_execve(shell, path);
+		check_execve_errors(shell, path);
 	}
 	waitpid(pid, &g_exit, 0);
-	if (WIFEXITED(g_exit))
-		g_exit = WEXITSTATUS(g_exit);
-	else if (WIFSIGNALED(g_exit))
-		g_exit = 128 + WTERMSIG(g_exit);
-	check_exit_status();
-	sig_handler(SIGRESTORE);
+	if (WIFEXITED(g_exit)) // Se o processo filho terminou normalmente.
+		g_exit = WEXITSTATUS(g_exit); // Retorna o status de saída do processo filho.
+	else if (WIFSIGNALED(g_exit)) // Se o processo filho foi encerrado por um sinal.
+		g_exit = 128 + WTERMSIG(g_exit); // Retorna o sinal que encerrou o processo filho.
+	check_exit_status(); // Esta função verifica se houve erros na execução do comando.
+	signal_handler(SIGRESTORE); // Esta função trata os sinais, que mudam para o modo de execução de um processo pai.
 }

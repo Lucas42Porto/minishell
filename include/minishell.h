@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 16:04:38 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/07 01:43:45 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/07 02:17:24 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@
 # define ERROR_QUOTE "unclosed quotes"
 # define ERROR_SINTAX "syntax error"
 # define ERROR_HERE_DOC "unexpected EOF while looking for matching `"
+# define ERROR_QUOTES "unclosed quotes"
+# define ERROR_SYNTAX_PIPE "syntax error near unexpected token `|'"
+# define ERROR_SYNTAX_PIPE2 "syntax error near unexpected token `||'"
 
 # define SIGRESTORE 1
 # define SIGHEREDOC 2
@@ -67,29 +70,35 @@ typedef struct s_cmd
 	int				type;
 }					t_cmd;
 
-typedef struct s_env
+// typedef struct s_env
+// {
+// 	char			*key;
+// 	char			*value;
+// 	int				visible;
+// 	int				index;
+// 	struct s_env	*next;
+// }					t_env;
+
+typedef struct	s_env
 {
-	char			*key;
-	char			*value;
-	int				visible;
-	int				index;
-	struct s_env	*next;
-}					t_env;
+	char	**e_name;
+	char	**e_content;
+	int		size_env;
+}				t_env;
 
 typedef struct s_shell
 {
-	char			*line;
+	char			*user_line;
 	char			*prompt;
 	char			*ps;
 	char			*es;
-	int				line_len;
-	t_env			*env_list_unsorted;
-	t_env			*env_list_sorted;
+	int				size_line;
+	t_env			env;
 	t_cmd			*cmd;
 	int				status;
 	int				envp_size;
 	int				pid;
-	char			**envp_char;
+	char			**envp;
 }					t_shell;
 
 typedef struct s_exec
@@ -201,4 +210,5 @@ void				ms_exit(t_shell *shell, t_exec *cmd);
 
 // signals
 void				signal_handler(int sig);
+
 #endif

@@ -6,59 +6,45 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/06 11:17:08 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/07 02:07:47 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishel_2.h"
+#include "../../include/minishell.h"
 
-//corrigir funcoes
-// int	run_builtin(t_shell *shell, t_exec *cmd)
-// {
-// 	if (!ft_strcmp(cmd->argv[0], "echo"))
-// 		return (ms_echo(cmd), 1);
-// 	else if (!ft_strcmp(cmd->argv[0], "cd"))
-// 		return (ms_cd(shell, cmd), 1);
-// 	else if (!ft_strcmp(cmd->argv[0], "pwd"))
-// 		return (ms_pwd(shell, cmd), 1);
-// 	else if (!ft_strcmp(cmd->argv[0], "export"))
-// 		return (ms_export(shell, cmd), 1);
-// 	else if (!ft_strcmp(cmd->argv[0], "unset"))
-// 		return (ms_unset(shell, cmd), 1);
-// 	else if (!ft_strcmp(cmd->argv[0], "env"))
-// 		return (ms_env(shell, cmd), 1);
-// 	else if (!ft_strcmp(cmd->argv[0], "exit"))
-// 		return (ms_exit(shell, cmd), 1);
-// 	return (0);
-// }
-
-void	execute_builtin(t_shell *msh)
+int	run_builtin(t_shell *shell, t_exec *cmd)
 {
-	if (!ft_strncmp(msh->tokens[0], "exit", 4))
-		execute_exit(msh, 0);
-	if (!ft_strncmp(msh->tokens[0], "echo", 4))
-		execute_echo(msh);
-	if (!ft_strncmp(msh->tokens[0], "pwd", 3) && !have_options(msh, 0))
-		execute_pwd(msh, NULL);
-	if (!ft_strncmp(msh->tokens[0], "export", 6) && !have_options(msh, 0))
-	{
-		if (!msh->tokens[1])
-			export_without_args(msh);
-		else
-			execute_export(msh, 0, NULL);
-	}
-	if (!ft_strncmp(msh->tokens[0], "unset", 5) && !have_options(msh, 0))
-		execute_unset(msh, 0);
-	if (!ft_strncmp(msh->tokens[0], "env", 3))
-		execute_env(msh, -1);
-	if (!ft_strncmp(msh->tokens[0], "cd", 2))
-	{
-		if (msh->tokens[1] && msh->tokens[2])
-			print_error(ERROR_ARG, msh->tokens[0], 1);
-		else
-			execute_cd(msh, NULL);
-	}
+	if (!ft_strcmp(cmd->argv[0], "echo"))
+		return (ms_echo(cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "cd"))
+		return (ms_cd(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "pwd"))
+		return (ms_pwd(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "export"))
+		return (ms_export(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (ms_unset(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "env"))
+		return (ms_env(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "exit"))
+		return (ms_exit(shell, cmd), 1);
+	return (0);
 }
+void	wait_children(t_shell *shell)
+{
+	if (waitpid(shell->pid, &g_exit, 0) != -1) // Espera o processo filho terminar.
+	{
+		if (WIFEXITED(g_exit)) // Se o processo filho terminou normalmente.
+			g_exit = WEXITSTATUS(g_exit);
+		else if (WIFSIGNALED(g_exit))
+			g_exit = WTERMSIG(g_exit) + 128; // Obtém o sinal que causou a terminação do processo filho.
+	}
+	while (wait(0) != -1) // Espera todos os processos filhos terminarem.
+		;
+	if (g_exit == 130) // Se o sinal for SIGINT.
+		shell->status = RESTORE; // O status é RESTORE. Senão o status é CONTINUE. Qual a diferença? O status RESTORE é usado para restaurar o prompt após um sinal SIGINT. O status CONTINUE é usado para continuar a execução do shell. Em termos práticos o que acontece? Se o utilizador carregar ctrl+c, o shell continua a correr. Se o utilizador carregar ctrl+d, o shell fecha. Porquê? Porque o ctrl+d é um sinal de EOF. O que é EOF? EOF é o fim do ficheiro. Se o utilizador carregar ctrl+d, o shell fecha. Se o utilizador carregar ctrl+c, o shell continua a correr. Porquê? Porque o ctrl+c é um sinal de interrupção. Se o utilizador carregar ctrl+c, o shell continua a correr.
+}
+
 static void	close_fds_and_sig_handler(int fd[2], int sig)
 {
 	if (sig)
@@ -67,9 +53,9 @@ static void	close_fds_and_sig_handler(int fd[2], int sig)
 	check(close(fd[1]), "close error", 127);
 }
 
-static void	run_pipe(t_shell *shell, t_pipe *cmd)
+void	run_pipe(t_shell *shell, t_pipe *cmd)
 {
-	int		fd[2];
+	int	fd[2];
 
 	check(pipe(fd), "pipe error", 127);
 	shell->pid = check_fork();
@@ -80,10 +66,10 @@ static void	run_pipe(t_shell *shell, t_pipe *cmd)
 		run_cmd(shell, cmd->left);
 		free_exit(shell);
 	}
-	if (cmd->left->type == HERE_DOC)
-		wait_children(shell);
-	if (shell->status == CONTINUE)
-		shell->pid = check_fork();
+	if (cmd->left->type == HERE_DOC) // Se o tipo do comando da esquerda for HERE_DOC.
+		wait_children(shell); // Espera o processo filho terminar.
+	if (shell->status == CONTINUE) // Se o status for CONTINUE.
+		shell->pid = check_fork(); // Cria um novo processo filho, que será o comando da direita.
 	if (shell->pid == 0)
 	{
 		check(dup2(fd[0], STDIN_FILENO), "dup2 error", 127);
@@ -91,20 +77,18 @@ static void	run_pipe(t_shell *shell, t_pipe *cmd)
 		run_cmd(shell, cmd->right);
 		free_exit(shell);
 	}
-	close_fds_and_sig_handler(fd, 0);
-	wait_children(shell);
+	close_fds_and_sig_handler(fd, 0); // Fecha os descritores de arquivo.
+	wait_children(shell); // Espera o processo filho terminar.
 }
 
 void	run_cmd(t_shell *shell, t_cmd *cmd)
 {
-	if (cmd->type == EXEC && shell->exec_cmd == true)
+	if (cmd->type == EXEC)
 		run_exec(shell, (t_exec *)cmd);
-	else if (cmd->type == REDIR && shell->exec_cmd == true)
+	else if (cmd->type == REDIR)
 		run_redir(shell, (t_redir *)cmd);
 	else if (cmd->type == HERE_DOC)
 		run_heredoc(shell, (t_here *)cmd);
 	else if (cmd->type == PIPE)
 		run_pipe(shell, (t_pipe *)cmd);
-	else if (cmd->type == BLOCK && shell->exec_cmd == true)
-		run_block(shell, (t_block *)cmd);
 }
