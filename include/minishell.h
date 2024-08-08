@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 16:04:38 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/07 02:31:14 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/08 01:01:07 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_shell
 	int				envp_size;
 	int				pid;
 	char			**envp;
+	char			**paths;
 }					t_shell;
 
 typedef struct s_exec

@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 22:01:31 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/07 01:58:11 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/09 00:23:27 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,4 @@ void	free_split(char **split)
 		free(split[i]);
 	free(split);
 }
+

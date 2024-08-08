@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/07 02:25:23 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/08 01:09:27 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,8 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	expand_argv(shell, cmd->argv);
 	if (!cmd->argv[0])
 		return (g_exit = 0, (void)0);
-	if (check_if_is_builtin(shell, cmd)) //(msh, msh->tokens[0])
-	{
-		run_builtin(shell, cmd);
+	if (run_builtin(shell, cmd))
 		return ;
-	}	
 	sig_handler(SIGCHILD);
 	pid = check_fork();
 	if (pid == 0)
