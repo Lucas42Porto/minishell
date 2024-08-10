@@ -6,11 +6,11 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:52:29 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 02:56:57 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/09 22:58:38 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
+#include "../../include/minishell.h"
 
 char	**ft_split_env(char **envp, char **result, int *i)
 {
@@ -28,23 +28,12 @@ char	**ft_split_env(char **envp, char **result, int *i)
 	return (result);
 }
 
-// char *get_content_env(t_shell *shell, char *name, int i)
-// {
-// 	while (shell->e_name[++i])
-// 		if (!ft_strncmp(shell->e_name[i], name, ft_strlen(name)))
-// 			return (shell->e_content[i]);
-// 	return (NULL);
-// }
-
 void	extract_paths(t_shell *shell, char *path, int i)
 {
-	// path = ft_strdup(get_content_env(shell, "PATH", -1));
 	path = ft_strdup(getenv("PATH"));
 	if (!path)
 		return ;
 	shell->paths = ft_split(path, ':');
-	//while (shell->paths && shell->paths[++i])
-		//shell->paths[i] = ft_strjoin(shell->paths[i], "/");
 	(void)i;
 	free(path);
 }

@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
+#include "../include/minishell.h"
 
-int	g_exit;
+int			g_exit;
 
 void	get_userline(t_shell *shell, char *prompt)
 {
@@ -23,24 +23,28 @@ void	get_userline(t_shell *shell, char *prompt)
 		clean_exit(shell, NULL);
 }
 
-int main (void)
+int	run_ms(t_shell *shell)
+{
+	shell->status = STOP;
+	get_userline(shell, NULL);
+	if (shell->user_line && prepare_line(shell))
+	{
+		if (parse(shell))
+		{
+			//run_cmd(shell, shell->cmd);
+		}
+	}
+	free(shell->user_line);
+	return (shell->status);
+}
+
+int main(void)
 {
 	t_shell	shell;
 
 	init_env_and_path(&shell, &shell.env);
-	while(1) 
-	{
-		get_userline(&shell, NULL);
-		if (*shell.user_line)
-		{
-			add_history(shell.user_line);
-			if (!lexer(&shell))
-				continue;
-			if (parse(&shell))
-			{
-				ft_exec_cmd(&shell, shell.user_line);
-			}
-		}
-	}
+	while(run_ms(&shell))
+		;
+	clear_history();
 	return 0;
 }

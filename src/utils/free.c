@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 22:01:31 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 03:02:38 by resilva          ###   ########.fr       */
+/*   Created: 2024/08/09 22:31:28 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/09 22:31:51 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
-
-void	ft_error(char *header, char *subheader, char *msg)
-{
-	ft_putstr_fd(header, 2);
-	ft_putstr_fd(": ", 2);
-	if (subheader)
-	{
-		ft_putstr_fd(subheader, 2);
-		ft_putstr_fd(": ", 2);
-	}		
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd("\n", 2);
-}
+#include "../../include/minishell.h"
 
 void	clean_exit(t_shell *shell, char *exit_code)
 {

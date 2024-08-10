@@ -6,11 +6,11 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:58:35 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 03:02:50 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/09 23:05:52 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
+#include "../../include/minishell.h"
 
 int	ft_count_tokens(char **cmd_args)
 {
@@ -39,7 +39,7 @@ void	ft_exec_cd(char *cmd, char *path, int ntokens)
 	{
 		if (ntokens >= 3)
 		{
-			ft_error(cmd, NULL, "too many arguments");
+			//ft_error(cmd, NULL, "too many arguments");
 			return ;
 		}
 		if (!path)
@@ -51,7 +51,8 @@ void	ft_exec_cd(char *cmd, char *path, int ntokens)
 			perror("chdir");
 	}
 	else
-		ft_error(cmd, NULL, "command not found");
+		printf("command not found");
+		//ft_error(cmd, NULL, "command not found");
 }
 
 void	ft_exec_pwd(char *cmd)
@@ -73,11 +74,13 @@ void	ft_exec_pwd(char *cmd)
 			perror("getcwd");
 	}
 	else
-		ft_error(cmd, NULL, "command not found");
+		printf("command not found");
+	//ft_error(cmd, NULL, "command not found");
 }
 
 void	ft_exec_echo(char **cmd_args, char *cmd, int ntokens, int len_cmd)
 {
+	(void)cmd;
 	int	i;
 
 	if (len_cmd == 4)
@@ -96,11 +99,13 @@ void	ft_exec_echo(char **cmd_args, char *cmd, int ntokens, int len_cmd)
 		}
 	}
 	else
-		ft_error(cmd, NULL, "command not found");
+		printf("command not found");
+	//ft_error(cmd, NULL, "command not found");
 }
 
 void	ft_exec_env(t_shell *shell, char *cmd, int len_cmd, int i)
 {
+	(void)cmd;
 	if (len_cmd == 3)
 	{
 		while (shell->envp[++i])
@@ -113,7 +118,8 @@ void	ft_exec_env(t_shell *shell, char *cmd, int len_cmd, int i)
 		}
 	}
 	else
-		ft_error(cmd, NULL, "command not found");
+		printf("command not found");
+	//ft_error(cmd, NULL, "command not found");
 }
 
 void	ft_exec_exit(t_shell *shell, char *cmd, char *arg, int ntokens)
@@ -124,12 +130,14 @@ void	ft_exec_exit(t_shell *shell, char *cmd, char *arg, int ntokens)
 	if (len_cmd == 4)
 	{
 		if (ntokens > 2)
-			ft_error(cmd, NULL, "too many arguments");
+			printf("too many arguments");
+		// ft_error(cmd, NULL, "too many arguments");
 		else
 			clean_exit(shell, arg);
 	}
 	else
-		ft_error(cmd, NULL, "command not found");
+		printf("command not found");
+	//ft_error(cmd, NULL, "command not found");
 }
 
 void	ft_exec_cmd(t_shell *shell, char *line)

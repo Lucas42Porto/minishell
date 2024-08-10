@@ -6,11 +6,11 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:45:25 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 02:37:55 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/09 22:00:47 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
+#include "../../include/minishell.h"
 
 int	gettoken_type(t_shell *sh)
 {

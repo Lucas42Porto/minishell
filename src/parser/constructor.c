@@ -6,11 +6,11 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:24:35 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 04:53:08 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/10 00:50:48 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
+#include "../../include/minishell.h"
 
 t_cmd	*mk_here(char *eof, t_cmd *subcmd)
 {
@@ -40,7 +40,6 @@ t_cmd	*mk_pipe(t_cmd *left, t_cmd *right) //make pipe
 t_cmd	*mk_redir(char *file, int mode, int fd, t_cmd *subcmd)
 {
 	t_redir	*redir;
-	//t_cmd	*cmd;
 	
 	redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
 	redir->file = ft_strdup(file);

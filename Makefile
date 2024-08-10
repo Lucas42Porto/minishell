@@ -20,8 +20,9 @@ LIBFT_PATH = libft
 LFLAGS = -L ${LIBFT_PATH} -lft -lreadline
 DN = > /dev/null
 
+SRC_DIRS = src src/env src/parser src/utils
 
-SRC =	$(wildcard src/*.c)
+SRC =	$(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
 
 
 # ------------------------------ Colors ------------------------------

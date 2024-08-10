@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   prepare_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 03:44:24 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/10 14:38:52 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishel.h"
+#include "../include/minishell.h"
 
 // int	wrong_pipe(char *user_line, int size_line)
 // {
@@ -30,6 +30,8 @@
 
 int	wrong_pipe(char *line, int i) // i=-1 & j=0
 {
+	(void)line;
+	(void)i;
 	// int	consecutive_pipes;
 
 	// consecutive_pipes = 0;
@@ -54,31 +56,33 @@ int	wrong_pipe(char *line, int i) // i=-1 & j=0
 	// 	}
 	// }
 
-	while (line[++i])
-	{
-		// if (line[i] == '"' || line == '\'')
-		if (line[i] == '|')
-		{
-			if (line[i + 1] == '|')
-				return (ft_error("minishell", NULL, ERROR_SYNTAX_PIPE2), TRUE);
-			return (ft_error("minishell", NULL, ERROR_SYNTAX_PIPE), TRUE);
-		}
-	}
+
+	// while (line[++i])
+	// {
+	// 	// if (line[i] == '"' || line == '\'')
+	// 	if (line[i] == '|')
+	// 	{
+	// 		if (line[i + 1] == '|')
+	// 			return (ft_error("minishell", NULL, ERROR_SYNTAX_PIPE2), TRUE);
+	// 		return (ft_error("minishell", NULL, ERROR_SYNTAX_PIPE), TRUE);
+	// 	}
+	// }
 
 	return (FALSE);
 }
 
-int	wrong_quote(char *line, int squote, int dquote, int i)
+int	wrong_quote(t_shell *sh, char *line, int squote, int dquote)
 {
-	while (line[++i])
+	while (*line)
 	{
-		if (line[i] == '"' && !squote)
+		if (*line == '"' && !squote)
 			dquote = !dquote;
-		else if (line[i] == '\'' && !dquote)
+		else if (*line == '\'' && !dquote)
 			squote = !squote;
+		line++;
 	}
 	if (squote || dquote)
-		return (TRUE);
+		return (print_error(sh, ERROR_QUOTE, NULL, 2));
 	return (FALSE);
 }
 
@@ -100,20 +104,20 @@ void	nullterminate(t_shell *sh, int i)
 	}
 }
 
-int	expand(t_shell *shell, char *line, int i)
+int	expand_parse(t_shell *shell, char *line, int i)
 {
-	char	*newline;
+	char	*new_line;
 	char	*left;
 	char	*right;
 	
-	newline = ft_substr(line, 0, i);
-	left = ft_strjoin(newline, " ");
-	free(newline);
+	new_line = ft_substr(line, 0, i);
+	left = ft_strjoin(new_line, " ");
+	free(new_line);
 	right = ft_substr(line, i, ft_strlen(line) - i);
-	newline = ft_strjoin(left, right);
+	new_line = ft_strjoin(left, right);
 	free(shell->user_line);
-	shell->user_line = ft_strdup(newline);
-	free(newline);
+	shell->user_line = ft_strdup(new_line);
+	free(new_line);
 	free(left);
 	free(right);
 	return (TRUE);
@@ -132,15 +136,15 @@ void	check_expand(t_shell *shell, char *line)
 			dquote = !dquote;
 		else if (*line == '\'' && !dquote)
 			squote = !squote;
-		if (!squote && !dquote && (ft_strchr("|<>", *line)))
+		if (!squote && !dquote && (ft_strchr("<|>", *line)))
 		{
 			if (!ft_strchr(" |<>", *(line - 1)))
 			{
-				if (expand(shell, shell->user_line, line - shell->user_line))
+				if (expand_parse(shell, shell->user_line, line - shell->user_line))
 					line = shell->user_line;
 			}
 			else if (!ft_strchr(" |<>", *(line + 1)))
-				if (expand(shell, shell->user_line, line - shell->user_line + 1))
+				if (expand_parse(shell, shell->user_line, line - shell->user_line + 1))
 					line = shell->user_line;
 		}
 		line++;
@@ -148,7 +152,21 @@ void	check_expand(t_shell *shell, char *line)
 	shell->size_line = ft_strlen(shell->user_line);
 }
 
-int	lexer(t_shell *shell)
+int	syntax_error(t_shell *sh)
+{
+	char	last_char;
+	
+	last_char = sh->user_line[ft_strlen(sh->user_line) - 1];
+	if (ft_strchr(BAD_OP, *sh->user_line))
+		return (!print_error_syntax(sh, *sh->user_line, 2));
+	else if (wrong_quote(sh, sh->user_line, 0, 0))
+		return (FALSE);
+	else if (ft_strchr("<|>&;()", last_char))
+		return (!print_error_syntax(sh, last_char, 2));
+	return (FALSE);
+}
+
+int	prepare_line(t_shell *shell)
 {
 	//char	last_char;
 
@@ -162,6 +180,12 @@ int	lexer(t_shell *shell)
 	// else if(ft_strchr("<>", last_char))
 	// 	return (ft_error("minishell", NULL, "syntax error near unexpected token `newline'"), FALSE);
 
+	shell->status = CONTINUE;
+	if (!*shell->user_line)
+		return (FALSE);
+	add_history(shell->user_line);
+	if (syntax_error(shell))
+		return (FALSE);
 	check_expand(shell, shell->user_line);
 	nullterminate(shell, -1);
 	return (TRUE);
