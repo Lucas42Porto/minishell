@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:45:25 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 22:00:47 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/13 19:20:51 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	parse(t_shell *sh)
 	sh->es = sh->user_line + sh->size_line;
 	sh->cmd = parsepipe(sh);
 	peek(sh, "");
-	if (sh->cmd == NULL)
-		return (FALSE);
-	return (TRUE);
+	if (sh->ps != sh->es && sh->status != RESTORE)
+		return (!print_error_syntax(sh, sh->ps, 2));
+	return (sh->status == CONTINUE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 02:37:07 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/09 00:20:07 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:27:06 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check(int result, char *msg, int exit)
 {
 	if (result == -1)
 	{
-		ft_putstr_fd(ERROR_TITLE, STDERR_FILENO);
+		ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
 		perror(msg);
 		g_exit = exit;
 	}

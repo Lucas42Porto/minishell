@@ -121,9 +121,40 @@ void	check_expand(t_shell *shell, char *line2)
 	}
 }
 
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t	h;
+	size_t	n;
+
+	h = 0;
+	if (needle[0] == '\0')
+		return ((char *)haystack);
+	while (haystack[h] != '\0')
+	{
+		n = 0;
+		while (haystack[h + n] == needle[n] && (h + n) < len)
+		{
+			if (haystack[h + n] == '\0' && needle[n] == '\0')
+				return ((char *)&haystack[h]);
+			n++;
+		}
+		if (needle[n] == '\0')
+			return ((char *)haystack + h + n);
+		h++;
+	}
+	return (0);
+}
+
 int	main(void)
 {
 	t_shell	sh;
+
+	char	*home = getenv("HOME");
+	char	*pwd = getenv("PWD");
+
+	char	*res = ft_strnstr(pwd, home, strlen(home));
+
+	printf("HOME: %s\nPWD: %s\nRES: %s\n", home, pwd, res);
 
 	sh.line = strdup("<<1 env|grep path|wc -l >3 >>2 <4");
 	char	*tmp = sh.line;

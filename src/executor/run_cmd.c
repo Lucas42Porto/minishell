@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/09 22:54:23 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/13 20:47:10 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	run_builtin(t_shell *shell, t_exec *cmd)
 		return (ms_cd(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (ms_pwd(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
-		return (ms_export(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
-		return (ms_unset(shell, cmd), 1);
+	//else if (!ft_strcmp(cmd->argv[0], "export"))
+	//	return (ms_export(shell, cmd), 1);
+	//else if (!ft_strcmp(cmd->argv[0], "unset"))
+	//	return (ms_unset(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "env"))
 		return (ms_env(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))

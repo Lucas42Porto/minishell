@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:58:35 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 23:05:52 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/14 18:05:28 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,9 @@ void	ft_exec_cd(char *cmd, char *path, int ntokens)
 		//ft_error(cmd, NULL, "command not found");
 }
 
-void	ft_exec_pwd(char *cmd)
-{
-	char	path[1024];
-	int		i;
 
-	i = 0;
-	while (cmd[i])
-		i++;
-	if (i == 3)
-	{
-		if (getcwd(path, sizeof(path)))
-		{
-			ft_putstr_fd(path, 1);
-			ft_putstr_fd("\n", 1);
-		}
-		else
-			perror("getcwd");
-	}
-	else
-		printf("command not found");
-	//ft_error(cmd, NULL, "command not found");
-}
+
+
 
 void	ft_exec_echo(char **cmd_args, char *cmd, int ntokens, int len_cmd)
 {
@@ -140,30 +121,30 @@ void	ft_exec_exit(t_shell *shell, char *cmd, char *arg, int ntokens)
 	//ft_error(cmd, NULL, "command not found");
 }
 
-void	ft_exec_cmd(t_shell *shell, char *line)
-{
-	char	**cmd_args;
-	char	*arg1;
-	char	*cmd;
-	int		ntokens;
+// void	ft_exec_cmd(t_shell *shell, char *line)
+// {
+// 	char	**cmd_args;
+// 	char	*arg1;
+// 	char	*cmd;
+// 	int		ntokens;
 
-	cmd_args = ft_split(line, ' ');
-	cmd = ft_strdup(cmd_args[0]);
-	arg1 = NULL;
-	if (cmd_args[1])
-		arg1 = ft_strdup(cmd_args[1]);
-	ntokens = ft_count_tokens(cmd_args);
-	if (ft_strncmp(cmd, "cd", 2) == 0)
-		ft_exec_cd(cmd, arg1, ntokens);
-	else if (ft_strncmp(cmd, "pwd", 3) == 0)
-		ft_exec_pwd(cmd);
-	else if (ft_strncmp(cmd, "echo", 4) == 0)
-		ft_exec_echo(cmd_args, cmd, ntokens, ft_strlen(cmd));
-	else if (!ft_strncmp(cmd, "env", 3))
-		ft_exec_env(shell, cmd, ft_strlen(cmd), -1);
-	else if (!ft_strncmp(cmd, "exit", 4))
-		ft_exec_exit(shell, cmd, arg1, ntokens);
-	free_split(cmd_args);
-	free(cmd);
-	free(arg1);
-}
+// 	cmd_args = ft_split(line, ' ');
+// 	cmd = ft_strdup(cmd_args[0]);
+// 	arg1 = NULL;
+// 	if (cmd_args[1])
+// 		arg1 = ft_strdup(cmd_args[1]);
+// 	ntokens = ft_count_tokens(cmd_args);
+// 	if (ft_strncmp(cmd, "cd", 2) == 0)
+// 		ft_exec_cd(cmd, arg1, ntokens);
+// 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+// 		ft_exec_pwd(cmd);
+// 	else if (ft_strncmp(cmd, "echo", 4) == 0)
+// 		ft_exec_echo(cmd_args, cmd, ntokens, ft_strlen(cmd));
+// 	else if (!ft_strncmp(cmd, "env", 3))
+// 		ft_exec_env(shell, cmd, ft_strlen(cmd), -1);
+// 	else if (!ft_strncmp(cmd, "exit", 4))
+// 		ft_exec_exit(shell, cmd, arg1, ntokens);
+// 	free_split(cmd_args);
+// 	free(cmd);
+// 	free(arg1);
+// }

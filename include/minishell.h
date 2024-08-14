@@ -55,19 +55,18 @@
 # define ERROR_HEAD "minishell: "
 # define ERROR_QUOTE "unclosed quotes"
 # define ERROR_SYNTAX "syntax error near unexpected token `"
-# define ERROR_SYNTAX_PIPE "syntax error near unexpected token `|'"
-# define ERROR_SYNTAX_PIPE2 "syntax error near unexpected token `||'"
-
-# define ERROR_TITLE "minishell: "
-# define ERROR_QUOTE "unclosed quotes"
-# define ERROR_SINTAX "syntax error"
 # define ERROR_HERE_DOC "unexpected EOF while looking for matching `"
-
+# define ERROR_OPT "options are not supprted"
 
 # define SIGRESTORE 1
 # define SIGHEREDOC 2
 # define SIGCHILD 3
 # define SIGIGNORE 4
+
+# define GREEN "\033[0;32m"
+# define BLUE "\033[0;34m"
+# define WHITE "\033[0;37m"
+# define RESET "\033[0m"
 
 extern int			g_exit;
 
@@ -129,6 +128,7 @@ typedef struct	s_shell
 	t_cmd	*cmd;
 	int		status;
 	int		pid;
+	int		exec_cmd;
 }				t_shell;
 
 // envp1 file - convert
@@ -142,7 +142,6 @@ void				create_update_envp_lists(t_shell *shell, char *key,
 // envp3 file - export/get/print
 void				env_export(t_shell *shell, char *key, char *value,
 						int visible);
-char				*env_get(char *key, t_shell *shell);
 void				envp_print(t_shell *shell);
 
 // envp4 file - modify
@@ -176,7 +175,7 @@ int					gettoken(t_shell *sh, char **token);
 t_cmd				*parsepipe(t_shell *shell);
 
 // error_frees
-int					print_error_syntax(t_shell *shell, char msg, int exit);
+int					print_error_syntax(t_shell *shell, char *msg, int exit);
 int					print_error(t_shell *shell, char *msg, char *msg2,
 						int exit);
 void				free_exit(t_shell *shell);
