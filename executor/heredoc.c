@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/14 21:19:30 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/13 20:58:02 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	check_fork(void)
 	}
 	return (pid);
 }
-
 // Esta função expande o here_doc. Ela percorre a linha e verifica se o caractere atual é um til ou uma variável de ambiente. Se o caractere atual for um til, a função expand é chamada para expandir o til. Se o caractere atual for uma variável de ambiente, a função expand é chamada para expandir a variável de ambiente.
 static void	expand_heredoc(char **line)
 {

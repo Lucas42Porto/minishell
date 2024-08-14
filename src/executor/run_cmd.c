@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/07 02:07:47 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/14 21:19:47 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	run_builtin(t_shell *shell, t_exec *cmd)
 		return (ms_cd(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (ms_pwd(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
-		return (ms_export(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
-		return (ms_unset(shell, cmd), 1);
+	//else if (!ft_strcmp(cmd->argv[0], "export"))
+	//	return (ms_export(shell, cmd), 1);
+	//else if (!ft_strcmp(cmd->argv[0], "unset"))
+	//	return (ms_unset(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "env"))
 		return (ms_env(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
@@ -48,7 +48,7 @@ void	wait_children(t_shell *shell)
 static void	close_fds_and_sig_handler(int fd[2], int sig)
 {
 	if (sig)
-		sig_handler(sig);
+		signal_handler(sig);
 	check(close(fd[0]), "close error", 127);
 	check(close(fd[1]), "close error", 127);
 }
@@ -66,7 +66,7 @@ void	run_pipe(t_shell *shell, t_pipe *cmd)
 		run_cmd(shell, cmd->left);
 		free_exit(shell);
 	}
-	if (cmd->left->type == HERE_DOC) // Se o tipo do comando da esquerda for HERE_DOC.
+	if (cmd->left->type == HEREDOC) // Se o tipo do comando da esquerda for HERE_DOC.
 		wait_children(shell); // Espera o processo filho terminar.
 	if (shell->status == CONTINUE) // Se o status for CONTINUE.
 		shell->pid = check_fork(); // Cria um novo processo filho, que será o comando da direita.
@@ -87,7 +87,7 @@ void	run_cmd(t_shell *shell, t_cmd *cmd)
 		run_exec(shell, (t_exec *)cmd);
 	else if (cmd->type == REDIR)
 		run_redir(shell, (t_redir *)cmd);
-	else if (cmd->type == HERE_DOC)
+	else if (cmd->type == HEREDOC)
 		run_heredoc(shell, (t_here *)cmd);
 	else if (cmd->type == PIPE)
 		run_pipe(shell, (t_pipe *)cmd);

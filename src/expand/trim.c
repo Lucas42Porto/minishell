@@ -1,0 +1,56 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trim.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/14 16:51:22 by lumarque          #+#    #+#             */
+/*   Updated: 2024/08/14 21:03:07 by lumarque         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../include/minishell.h"
+
+void	arg_insert_null(char *arg)
+{
+	int	quote;
+
+	quote = 0;
+	while (*arg)
+	{
+		if ((*arg == '"' || *arg == '\'') && !quote)
+			quote = *arg;
+		else if (quote == *arg)
+			quote = 0;
+		if (ft_strchr(SPACES, *arg) && !quote)
+			*arg = '\0';
+		arg++;
+	}
+}
+
+void	trim_quotes(char *arg, int *len)
+{
+	char	quote;
+	int		i;
+
+	quote = 0;
+	i = 0;
+	while (i < *len)
+	{
+		if ((arg[i] == '"' || arg[i] == '\'') && !quote) // Se o caractere atual for uma aspa e não houver aspas abertas.
+		{
+			quote = arg[i];
+			memmove(arg + i, arg + i + 1, *len - i); // Move o bloco de memória de arg + i + 1 para arg + i, com um tamanho de *len - i.
+			(*len)--;
+		}
+		else if (quote && arg[i] == quote) // Se houver aspas abertas e o caractere atual for uma aspa.
+		{
+			quote = 0;
+			memmove(arg + i, arg + i + 1, *len - i); // Move o bloco de memória de arg + i + 1 para arg + i, com um tamanho de *len - i.
+			(*len)--;
+		}
+		else
+			i++;
+	}
+}

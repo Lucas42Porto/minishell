@@ -6,7 +6,7 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 02:37:07 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/09 00:20:07 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/14 21:20:19 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	check(int result, char *msg, int exit)
 {
 	if (result == -1)
 	{
-		ft_putstr_fd(ERROR_TITLE, STDERR_FILENO);
+		ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
 		perror(msg);
 		g_exit = exit;
 	}

@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 16:30:31 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/14 21:19:09 by lumarque         ###   ########.fr       */
+/*   Created: 2024/08/09 22:43:30 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/09 22:49:10 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t	i;
-
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	while (*s1 && (*s1 == *s2))
+    {
+        s1++;
+        s2++;
+    }
+    return (unsigned char)(*s1) - (unsigned char)(*s2);
 }
-
-/*int main()
-{
-	char s1[20] = "abcde";
-	printf("\nThere is: %lu characters in string/array.\n", ft_strlen(s1));
-    return (0);
-}*/

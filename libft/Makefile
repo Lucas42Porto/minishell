@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+         #
+#    By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/16 14:47:25 by lumarque          #+#    #+#              #
-#    Updated: 2024/06/04 22:56:29 by lumarque         ###   ########.fr        #
+#    Updated: 2024/08/09 22:52:39 by resilva          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC = ft_atoi.c ft_strlen.c ft_bzero.c ft_memset.c ft_calloc.c ft_isalnum.c \
 		./42_get_next_line/get_next_line_utils_bonus.c \
 		ft_lstsize.c ft_lstlast.c ft_lstadd_front.c ft_lstadd_back.c \
 		ft_lstnew.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
+		ft_strcmp.c ft_strjoin_free_s1.c \
 		
 OBJS = ${SRC:.c=.o}
 

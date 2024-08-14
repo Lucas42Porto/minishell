@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export_tmp.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 00:50:16 by lumarque          #+#    #+#             */
-/*   Updated: 2024/06/25 00:50:32 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/09 22:53:17 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	if_exist_key_tmp(t_shell *msh, char *token, int i)
 {
 	while (msh->environment.key_tmp[i])
 	{
-		if (strcmp(msh->environment.key_tmp[i], token) == 0)
+		if (ft_strcmp(msh->environment.key_tmp[i], token) == 0)
 			return (YES);
 		i++;
 	}
@@ -43,7 +43,7 @@ void	remove_tmp_var(t_shell *msh, char *token, int i, int j)
 		return ;
 	while (msh->environment.key_tmp[i])
 	{
-		if (strcmp(msh->environment.key_tmp[i], token) == 0)
+		if (ft_strcmp(msh->environment.key_tmp[i], token) == 0)
 			i++;
 		if (msh->environment.key_tmp[i] == NULL)
 		{

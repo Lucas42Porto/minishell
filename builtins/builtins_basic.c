@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_basic.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 00:46:04 by lumarque          #+#    #+#             */
-/*   Updated: 2024/06/25 00:48:25 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/09 21:16:54 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-void	execute_pwd(t_shell *msh, char *pwd)
+void	ms_pwd(t_shell *msh, char *pwd)
 {
 	pwd = getcwd(pwd, 2000);
 	ft_putendl_fd(pwd, msh->fdout);
@@ -23,7 +23,7 @@ void	execute_pwd(t_shell *msh, char *pwd)
 	free(pwd);
 }
 
-void	execute_exit(t_shell *msh, int i)
+void	ms_exit(t_shell *msh, int i)
 {
 	while (msh->tokens[i])
 		i++;
@@ -44,7 +44,7 @@ void	execute_exit(t_shell *msh, int i)
 		clean_exit(msh, EXIT_ARG);
 }
 
-void	execute_env(t_shell *msh, int i)
+void	ms_env(t_shell *msh, int i)
 {
 	if (msh->tokens[1])
 	{
@@ -60,7 +60,7 @@ void	execute_env(t_shell *msh, int i)
 	g_exit = 0;
 }
 
-void	execute_echo(t_shell *msh)
+void	ms_echo(t_shell *msh)
 {
 	if (msh->tokens[1])
 	{
@@ -73,7 +73,7 @@ void	execute_echo(t_shell *msh)
 		ft_putstr_fd("\n", msh->fdout);
 }
 
-int	execute_cd(t_shell *msh, char *tmp)
+int	ms_cd(t_shell *msh, char *tmp)
 {
 	update_envinroment_pwds(msh, "OLDPWD", NULL);
 	if (msh->tokens[1] && msh->tokens[1][0] == '-' && msh->tokens[1][1] == '\0')
