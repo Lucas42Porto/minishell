@@ -44,11 +44,11 @@ CLEANED		=	echo "\n $(BOLD_PURPLE)Clean: $(NO_COLOR)Removed all the \".o\" files
 
 FCLEANED	=	echo "\n $(BOLD_PURPLE)Fclean: $(NO_COLOR)Removed the executables \n"
 
+OBJ = ${SRC:.c=.o}
 
 .c.o:
 	@${CC} ${FLAGS} -c $< -o ${<:.c=.o}
 
-OBJ = ${SRC:.c=.o}
 
 ${NAME}: ${OBJ}
 		@$(COMP_START)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 19:17:52 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/15 00:20:37 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 			dquote = !dquote;
 		else if (*line == '\'' && !dquote)
 			squote = !squote;
-		if (!squote && !dquote && ((*line == '|' && *(line + 1) == '|') || *line == '&'))
+		if (!squote && !dquote && ((*line == '|' && *(line + 1) == '|') \
+			|| *line == '&' || *line == ';'))
 			return (print_error_syntax(sh, line, 2));
 		line++;
 	}
