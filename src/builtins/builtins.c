@@ -6,102 +6,11 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:58:35 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/14 18:05:28 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/14 22:26:28 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	ft_count_tokens(char **cmd_args)
-{
-	int	i;
-
-	i = 0;
-	while (cmd_args[i])
-		i++;
-	return (i);
-}
-
-void	ft_skip_space(char **str)
-{
-	while (**str && **str == ' ')
-		(*str)++;
-}
-
-void	ft_exec_cd(char *cmd, char *path, int ntokens)
-{
-	int	i;
-
-	i = 0;
-	while(cmd[i])
-		i++;
-	if (i == 2)
-	{
-		if (ntokens >= 3)
-		{
-			//ft_error(cmd, NULL, "too many arguments");
-			return ;
-		}
-		if (!path)
-			path = getenv("HOME");
-		else if (*path == '~')
-			if (path[1] == '/' || !path[1])
-				path = getenv("HOME");
-		if (chdir(path))
-			perror("chdir");
-	}
-	else
-		printf("command not found");
-		//ft_error(cmd, NULL, "command not found");
-}
-
-
-
-
-
-void	ft_exec_echo(char **cmd_args, char *cmd, int ntokens, int len_cmd)
-{
-	(void)cmd;
-	int	i;
-
-	if (len_cmd == 4)
-	{
-		i = 1;
-		if (ntokens == 1)
-			ft_putchar_fd('\n', STDIN_FILENO);
-		else
-		{
-			while (--ntokens)
-			{
-				ft_putstr_fd(cmd_args[i++], STDIN_FILENO);
-				ft_putchar_fd(' ', STDIN_FILENO);
-			}
-			ft_putchar_fd('\n', STDIN_FILENO);
-		}
-	}
-	else
-		printf("command not found");
-	//ft_error(cmd, NULL, "command not found");
-}
-
-void	ft_exec_env(t_shell *shell, char *cmd, int len_cmd, int i)
-{
-	(void)cmd;
-	if (len_cmd == 3)
-	{
-		while (shell->envp[++i])
-		{
-			ft_putstr_fd(shell->env.e_name[i], STDIN_FILENO);
-			ft_putchar_fd('=', STDIN_FILENO);
-			ft_putstr_fd(shell->env.e_content[i], STDIN_FILENO);
-			ft_putchar_fd('\n', STDIN_FILENO);
-			
-		}
-	}
-	else
-		printf("command not found");
-	//ft_error(cmd, NULL, "command not found");
-}
 
 void	ft_exec_exit(t_shell *shell, char *cmd, char *arg, int ntokens)
 {

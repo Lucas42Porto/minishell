@@ -3,15 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: joaosilva <joaosilva@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:30:07 by joaosilva         #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/14 21:37:20 by lumarque         ###   ########.fr       */
+=======
+/*   Updated: 2024/06/13 00:49:16 by joaosilva        ###   ########.fr       */
+>>>>>>> renan-branch
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+// Esta função insere um caratere nulo em cada espaço em branco que não está entre aspas.
 void	arg_insert_null(char *arg)
 {
 	int	quote;
@@ -29,6 +34,7 @@ void	arg_insert_null(char *arg)
 	}
 }
 
+// Esta função remove as aspas de uma string.
 void	trim_quotes(char *arg, int *len)
 {
 	char	quote;

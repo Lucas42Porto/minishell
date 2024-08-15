@@ -3,15 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   expand_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 10:48:05 by joaosilva         #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/08/14 21:36:11 by lumarque         ###   ########.fr       */
+=======
+/*   Updated: 2024/08/13 21:02:31 by resilva          ###   ########.fr       */
+>>>>>>> renan-branch
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+<<<<<<< HEAD
+=======
+// A função pointt_to_exp_tilde verifica se o caractere til (~) está numa posição válida para expansão (não precedido por caracteres especiais).
+// A função expand está a expandir uma variável de ambiente para o seu valor correspondente. A função env_get está a recuperar o valor da variável de ambiente especificada.
+// Em resumo, esta função está a lidar com a expansão de til (~)  onde `, - e +` são substituídos pelo valor das variáveis de ambiente HOME, OLDPWD e PWD, respectivamente. 
+//Parâmetros:
+//sh: Ponteiro para a estrutura t_shell contendo informações do shell.
+//point: Posição do caractere '~' na linha de comando original.
+//tmp: Ponteiro para o caractere '~' na linha de comando expandida.
+//line: Ponteiro para um ponteiro de caractere (char **) que aponta para a linha de comando a ser expandida.
+
+>>>>>>> renan-branch
 static int	point_to_exp_tilde(int point, char *tmp, char **line)
 {
 	if (!tmp[1] || ft_strchr(NOT_EXP, tmp[1])) // Se tmp[1] não existir (fim da string) ou estiver em NOT_EXP (lista de caracteres não permitidos), expande o til para o valor da variável de ambiente HOME usando a função expand. Exemplo: echo - ou echo - > file1. Outro exemplo é echo ~john. Neste caso, tmp[1] é o caractere j. Porém, j não é um caso especial válido para expansão de tilde (apenas + e - são tratados). Como não é um caso válido, a função expande o tilde para o valor da variável de ambiente HOME.
@@ -23,7 +39,23 @@ static int	point_to_exp_tilde(int point, char *tmp, char **line)
 				line));
 	return (0); // Se nenhuma dessas condições for atendida, a função retorna 0.
 }
+<<<<<<< HEAD
 
+=======
+// expand_tilde(t_shell *shell, char **line)
+//Parâmetros:
+//shell: Ponteiro para a estrutura t_shell contendo informações do shell.
+//line: Ponteiro para um ponteiro de caractere (char **) que aponta para a linha de comando a ser expandida.
+//O que faz:
+//Percorre a linha de comando caractere por caractere.
+//Procura por til (~) fora de aspas simples ou duplas.
+//Se encontrar um til válido, chama a função point_to_exp_tilde para realizar a expansão.
+//Atualiza o ponteiro line para apontar para a linha de comando expandida.
+//Retorna 0 após percorrer toda a linha.
+//Exemplo:
+//Linha de comando original: ls ~
+//Após expansão pela função expand_tilde: ls /home/usuario (assumindo /home/usuario é o valor da variável HOME)
+>>>>>>> renan-branch
 static int	expand_tilde(char **line)
 {
 	char	quote;
@@ -47,6 +79,20 @@ static int	expand_tilde(char **line)
 	return (0);
 }
 
+<<<<<<< HEAD
+=======
+//Parâmetros:
+//sh: Ponteiro para a estrutura t_shell contendo informações do shell.
+//point: Posição do caractere '$' na linha de comando original.
+//tmp: Ponteiro para o caractere '$' na linha de comando expandida.
+//line: Ponteiro para um ponteiro de caractere (char **) que aponta para a linha de comando a ser expandida.
+//O que faz:
+//Verifica se o caractere dólar ($) está em uma posição válida para expansão (seguido por um caractere válido para nome de variável de ambiente).
+//Se for válido, analisa o caractere seguinte (tmp[1]).
+//Se tmp[1] for ? (interrogação), expande para o código de saída do último comando executado usando g_exit e a função expand.
+//Se tmp[1] existir e for um caractere válido para nome de variável de ambiente, extrai o nome da variável até o fim do nome válido (alfanumérico e underline).
+//Utiliza a função env_get para recuperar o valor da variável de ambiente com o nome
+>>>>>>> renan-branch
 static int	point_to_expand_env(int point, char *tmp, char **line)
 {
 	char	*key;
