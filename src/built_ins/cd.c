@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/12 18:52:19 by crocha-s          #+#    #+#             */
-/*   Updated: 2024/08/14 21:37:55 by resilva          ###   ########.fr       */
+/*   Created: 2024/08/15 02:22:36 by lumarque          #+#    #+#             */
+/*   Updated: 2024/08/15 02:22:37 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../../include/minishell.h"
 

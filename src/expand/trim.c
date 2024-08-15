@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaosilva <joaosilva@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 11:30:07 by joaosilva         #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/14 21:37:20 by lumarque         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/13 00:49:16 by joaosilva        ###   ########.fr       */
->>>>>>> renan-branch
+/*   Created: 2024/08/15 02:26:20 by lumarque          #+#    #+#             */
+/*   Updated: 2024/08/15 02:26:23 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaosilva <joaosilva@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/10 22:57:29 by crocha-s          #+#    #+#             */
-/*   Updated: 2024/06/13 01:55:21 by joaosilva        ###   ########.fr       */
+/*   Created: 2024/08/15 02:22:48 by lumarque          #+#    #+#             */
+/*   Updated: 2024/08/15 02:22:49 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../../include/minishell.h"
 

@@ -3,32 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaosilva <joaosilva@student.42.fr>        +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/30 16:40:13 by joaosilva         #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/14 21:37:04 by lumarque         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/13 00:46:26 by joaosilva        ###   ########.fr       */
->>>>>>> renan-branch
+/*   Created: 2024/08/15 02:26:00 by lumarque          #+#    #+#             */
+/*   Updated: 2024/08/15 02:26:10 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// A função expand aloca memória para a nova linha. O comprimento
-// será o comprimento da linha original
-// mais o comprimento até onde está o espaço menos a diferença entre
-// 'j' e 'i' (o comprimento da parte da linha a ser substituída)
-// mais 1 para o caractere nulo de terminação.
-// Em C, a contagem de índices em um array (ou equivalente,
-// como uma string) começa em 0.
-// Portanto, se você tem um ponteiro para o início de um array,
-// o primeiro elemento
-// do array é acessado com ponteiro[0].
-// Quando você subtrai dois ponteiros que apontam para locais na
-// mesma array (como tmp - sh->line no seu código), o resultado é a diferença
-// entre os índices dos dois locais na array. Por exemplo, se tmp aponta para
-// o quinto elemento de sh->line, então tmp - sh->line será 4, porque a contagem
-// de índices começa em 0.
 
 #include "../../include/minishell.h"
 

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/08/15 00:20:37 by lumarque         ###   ########.fr       */
-=======
 /*   Updated: 2024/08/14 22:07:29 by resilva          ###   ########.fr       */
->>>>>>> renan-branch
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +92,7 @@ static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 			dquote = !dquote;
 		else if (*line == '\'' && !dquote)
 			squote = !squote;
-<<<<<<< HEAD
-		if (!squote && !dquote && ((*line == '|' && *(line + 1) == '|') \
-			|| *line == '&' || *line == ';'))
-=======
 		if (!squote && !dquote && ((*line == '|' && *(line + 1) == '|') || *line == '&' || *line == ';'))
->>>>>>> renan-branch
 			return (print_error_syntax(sh, line, 2));
 		line++;
 	}
