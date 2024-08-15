@@ -64,7 +64,8 @@ char	*get_prompt(char *prompt)
 
 static void	get_userline(t_shell *shell, char *prompt)
 {
-	prompt = "[minishell]~> ";
+	prompt = ft_strdup(GREEN "minishell➜ " WHITE);
+	//prompt = "GREEN [minishell]~> ";
 	// prompt = get_prompt(NULL);
 	shell->user_line = readline(prompt);
 	shell->user_line = ft_strtrim(shell->user_line, SPACES);
@@ -75,6 +76,7 @@ static void	get_userline(t_shell *shell, char *prompt)
 static int	run_ms(t_shell *shell)
 {
 	shell->status = STOP;
+	signal_handler(SIGRESTORE);
 	get_userline(shell, NULL);
 	if (shell->user_line && prepare_line(shell))
 	{
