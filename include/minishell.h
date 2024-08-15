@@ -216,19 +216,8 @@ void	init_env(t_shell *shell, t_env *env, char **tmp, int i);
 void	malloc_name_content(t_env *env, char **envp, int i);
 char	**ft_split_env(char **env, char **result, int *i);
 
-void	ft_exec_cd(char *cmd, char *path, int ntokens);
-void	ft_exec_pwd(char *cmd);
-void	ft_exec_echo(char **cmd_args, char *cmd, int ntokens, int len_cmd);
-void	ft_exec_env(t_shell *shell, char *cmd, int len_cmd, int i);
-void	ft_exec_exit(t_shell *shell, char *cmd, char *arg, int ntokens);
-void	ft_exec_cmd(t_shell *shell, char *line);
-void	ft_skip_space(char **str);
-int		ft_count_tokens(char **cmd_args);
-
-
 
 void	free_split(char **split);
-
 void	clean_exit(t_shell *shell, char *exit_code);
 
 #endif

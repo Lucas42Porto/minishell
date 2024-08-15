@@ -149,6 +149,11 @@ int	main(void)
 {
 	t_shell	sh;
 
+	char	*oldpwd;
+
+	oldpwd = getenv("OLDPWD");
+	printf("%s", oldpwd);
+
 	char	*home = getenv("HOME");
 	char	*pwd = getenv("PWD");
 
