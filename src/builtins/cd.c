@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/14 22:30:55 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/15 16:40:08 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,13 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	{
 		if (!path)
 			path = getenv("HOME");
-		// else if (!ft_strcmp(path, "~") || !ft_strcmp(path, "~/"))
-		// 	path = getenv("HOME");
 		else if (!ft_strcmp(path, "-"))
 		{
 			path = getenv("OLDPWD");
 			if (!path)
 				print_error(shell, "cd", "OLDPWD not defined", 2);
 		}
-		if (chdir(path))
+		if (chdir(path) && shell->status == CONTINUE)
 			print_error(shell, "cd: No such file or directory", path, 2);
 	}
 	if (shell->status == CONTINUE)

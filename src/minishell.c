@@ -74,6 +74,7 @@ static void	get_userline(t_shell *shell, char *prompt)
 
 static int	run_ms(t_shell *shell)
 {
+	signal_handler(SIGRESTORE);
 	shell->status = STOP;
 	get_userline(shell, NULL);
 	if (shell->user_line && prepare_line(shell))

@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:52:36 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 20:14:46 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/15 05:43:50 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,13 @@ t_cmd	*parseredir(t_shell *sh, t_cmd *cmd)
 	{
 		type = gettoken(sh, NULL);
 		if (gettoken(sh, &token) != 'a')
+		{
+			// if (type != '<' || (type == '<' && ft_strcmp(token, ">")))
+			// 	return (print_error_syntax(sh, token, 2), cmd);
+			// else if (gettoken(sh, &token) != 'a')
+			// 	return (print_error_syntax(sh, token, 2), cmd);
 			return (print_error_syntax(sh, token, 2), cmd);
+		}
 		if (type == '<')
 			cmd = mk_redir(token, O_RDONLY, 0, cmd);
 		else if (type == '>')

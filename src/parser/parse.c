@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:45:25 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 19:20:51 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/15 05:42:43 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	gettoken_type(t_shell *sh)
 		if (*(sh->ps + 1) == '<')
 			type = HEREDOC;
 	}
-	else if (*(sh->ps + 1) == '>')
+	else if (*sh->ps == '>')
 	{
-		if (*sh->ps == '>')
+		if (*(sh->ps + 1) == '>')
 			type = APPEND;	
 	}
 	else if (*sh->ps && !ft_strchr(OPERATORS, *sh->ps))
