@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 02:37:07 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:27:06 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:47:58 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static int	expand_file(t_shell *shell, char **file)
 {
 	int	len;
 
-	expand_arg(shell, file); //expande o tilde e as variáveis de ambiente.
+	expand_arg(shell, file);
 	len = ft_strlen(*file);
-	arg_insert_null(*file); //inserir um caractere nulo em cada espaço em branco que não está entre aspas
-	trim_quotes(*file, &len); //remover as aspas do arquivo de redirecionamento.
+	arg_insert_null(*file);
+	trim_quotes(*file, &len);
 	return (1);
 }
 

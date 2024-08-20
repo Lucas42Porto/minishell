@@ -49,6 +49,7 @@
 # define OPERATORS "<|>"
 
 # define BAD_OP "|&;()"
+# define UNSUPPORT "&*(){};\\"
 # define NOT_EXP "|></ \t\n\v\f\r"
 # define OPANDSP "|>< \t\n\v\f\r"
 
@@ -67,8 +68,6 @@
 # define BLUE "\033[0;34m"
 # define WHITE "\033[0;37m"
 # define RESET "\033[0m"
-# define MAGENTA "\033[35m"
-# define BOLDRED "\033[1m\033[31m"
 
 extern int			g_exit;
 
@@ -131,6 +130,7 @@ typedef struct	s_shell
 	int		status;
 	int		pid;
 	int		exec_cmd;
+	char	*oldpwd;
 }				t_shell;
 
 // envp1 file - convert
@@ -169,8 +169,8 @@ int					prepare_line(t_shell *shell);
 // Parser
 t_cmd				*mk_exec(void);
 t_cmd				*mk_pipe(t_cmd *left, t_cmd *right);
-t_cmd				*mk_redir(char *file, int mode, int fd, t_cmd *subcmd);
-t_cmd				*mk_here(char *eof, t_cmd *subcmd);
+t_cmd				*mk_redir(char *file, int mode, int fd, t_cmd *cmd);
+t_cmd				*mk_here(char *eof, t_cmd *cmd);
 int					parse(t_shell *shell);
 int					peek(t_shell *shell, char *op);
 int					gettoken(t_shell *sh, char **token);
@@ -218,8 +218,14 @@ void	init_env(t_shell *shell, t_env *env, char **tmp, int i);
 void	malloc_name_content(t_env *env, char **envp, int i);
 char	**ft_split_env(char **env, char **result, int *i);
 
-
 void	free_split(char **split);
-void	clean_exit(t_shell *shell, char *exit_code);
+void	clean_exit(t_shell *shell);
+
+
+void	update_env(t_env *env, char *name, char *new_value);
+int		print_error_export(t_shell *sh, char *cmd, char *arg, int exit);
+char	*env_get(t_env *env, char *name);
+int		print_error_unsupport(t_shell *sh, char *msg, int exit);
+void	selection_sort_env(t_env *env, int i, int j) ;
 
 #endif

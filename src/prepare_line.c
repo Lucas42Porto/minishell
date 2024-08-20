@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/14 22:07:29 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:42:55 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 	char	last_char;
 	
 	last_char = line[ft_strlen(line) - 1];
-	if (ft_strchr(BAD_OP, *line))
+	if (ft_strchr(UNSUPPORT, *line) || *line == '|')
 		return (print_error_syntax(sh, line, 2));
 	
 	while (*line)
@@ -92,14 +92,16 @@ static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 			dquote = !dquote;
 		else if (*line == '\'' && !dquote)
 			squote = !squote;
-		if (!squote && !dquote && ((*line == '|' && *(line + 1) == '|') || *line == '&' || *line == ';'))
+		if (!squote && !dquote && ((*line == '|' && *(line + 1) == '|')))
 			return (print_error_syntax(sh, line, 2));
+		else if (!squote && !dquote && ft_strchr(UNSUPPORT, *line))
+			return (print_error_unsupport(sh, line, 2));
 		line++;
 	}
 	if (squote || dquote)
 		return (print_error(sh, ERROR_QUOTE, NULL, 2));
 	
-	if (ft_strchr(BAD_OP, last_char))
+	if (ft_strchr(UNSUPPORT, last_char) || last_char == '|')
 		return (print_error_syntax(sh, --line, 2));
 	return (FALSE);
 }
@@ -109,6 +111,8 @@ int	prepare_line(t_shell *shell)
 	shell->status = CONTINUE;
 	if (!*shell->user_line)
 		return (FALSE);
+	if (env_get(&shell->env, "OLDPWD"))
+		shell->oldpwd = ft_strdup(env_get(&shell->env, "OLDPWD"));
 	add_history(shell->user_line);
 	if (syntax_error(shell, shell->user_line, 0, 0))
 		return (FALSE);

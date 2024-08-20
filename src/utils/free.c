@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:31:28 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 21:07:22 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 23:17:35 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,16 @@ void	free_cmd(t_cmd *cmd)
 		free_exec((t_exec *)cmd);
 }
 
-
-void	clean_exit(t_shell *shell, char *exit_code)
+void	clean_exit(t_shell *shell)
 {
-	ft_putstr_fd("exit\n", STDIN_FILENO);
 	if (shell->paths)
 		free_split(shell->paths);
 	free_split(shell->env.e_name);
 	free_split(shell->env.e_content);
 	free(shell->user_line);
-	if (exit_code)
-		exit(ft_atoi(exit_code));
-	exit(EXIT_SUCCESS);
+	if (shell->oldpwd)
+		free(shell->oldpwd);
+	exit(g_exit);
 }
 
 void	free_split(char **split)
@@ -88,7 +86,8 @@ void	free_split(char **split)
 
 	i = -1;
 	while (split[++i])
-		free(split[i]);
+		if (split[i])
+			free(split[i]);
 	free(split);
 }
 

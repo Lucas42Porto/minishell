@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 14:47:30 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/09 22:50:22 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:15:01 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int			ft_toupper(int c);
 int			ft_tolower(int c);
 int			ft_strncmp(const char *str1, const char *str2, size_t n);
 
-int 		ft_strcmp(const char *s1, const char *s2);
+int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strjoin_free_s1(char *s1, char const *s2);
+void		*ft_realloc(void *ptr, size_t new_size, size_t old_size);
 
 #endif

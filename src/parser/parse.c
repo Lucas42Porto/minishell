@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 23:45:25 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 19:20:51 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:58:07 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	gettoken_type(t_shell *sh)
 {
-	int type;
+	int	type;
 
 	type = *sh->ps;
 	if (*sh->ps == '<')
@@ -22,10 +22,10 @@ int	gettoken_type(t_shell *sh)
 		if (*(sh->ps + 1) == '<')
 			type = HEREDOC;
 	}
-	else if (*(sh->ps + 1) == '>')
+	else if (*sh->ps == '>')
 	{
-		if (*sh->ps == '>')
-			type = APPEND;	
+		if (*(sh->ps + 1) == '>')
+			type = APPEND;
 	}
 	else if (*sh->ps && !ft_strchr(OPERATORS, *sh->ps))
 		type = 'a';
@@ -36,8 +36,8 @@ int	gettoken_type(t_shell *sh)
 
 int	gettoken(t_shell *sh, char **token)
 {
-	int type;
-	
+	int	type;
+
 	while (sh->ps < sh->es && !*sh->ps)
 		sh->ps++;
 	if (token)

@@ -5,14 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/15 02:26:00 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/15 02:26:10 by lumarque         ###   ########.fr       */
+/*   Created: 2024/08/20 00:58:39 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/20 22:54:07 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// Esta função expande a linha inserindo uma chave entre os índices 'i' e 'j'.
 int	expand(char *key, int i, int j, char **line)
 {
 	char	*tmp;
@@ -32,7 +31,6 @@ int	expand(char *key, int i, int j, char **line)
 	return (1);
 }
 
-// Esta função expande a linha inserindo uma chave entre os índices 'i' e 'j', dando free na chave.
 int	expand_free(char *key, int i, int j, char **line)
 {
 	expand(key, i, j, line);

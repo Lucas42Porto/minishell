@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 16:30:31 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/09 01:36:31 by resilva          ###   ########.fr       */
+/*   Created: 2024/08/19 21:42:00 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/20 01:02:07 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../include/minishell.h"
 
-size_t	ft_strlen(const char *s)
+char	*env_get(t_env *env, char *name)
 {
-	size_t	i;
+	int	i;
 
-	i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	i = -1;
+	while (++i < env->size_env - 1)
+	{
+		if (!ft_strcmp(env->e_name[i], name))
+			return (env->e_content[i]);
+	}
+	return (NULL);
 }
-
-/*int main()
-{
-	char s1[20] = "abcde";
-	printf("\nThere is: %lu characters in string/array.\n", ft_strlen(s1));
-    return (0);
-}*/

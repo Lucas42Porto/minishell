@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseline.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:52:36 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 20:14:46 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:59:07 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_cmd	*parseexec(t_shell *sh)
 	{
 		type = gettoken(sh, &token);
 		if (!type)
-			break;
+			break ;
 		if (type != 'a')
 			return (print_error_syntax(sh, token, 2), ret);
 		if (cmd->argv[0])
@@ -62,7 +62,7 @@ t_cmd	*parseexec(t_shell *sh)
 t_cmd	*parsepipe(t_shell *sh)
 {
 	t_cmd	*cmd;
-	
+
 	cmd = parseexec(sh);
 	if (cmd && peek(sh, "|"))
 	{

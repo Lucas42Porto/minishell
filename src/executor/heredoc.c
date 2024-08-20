@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:57:28 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:24:22 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	check_fork(void)
 	return (pid);
 }
 
-// Esta função expande o here_doc. Ela percorre a linha e verifica se o caractere atual é um til ou uma variável de ambiente. Se o caractere atual for um til, a função expand é chamada para expandir o til. Se o caractere atual for uma variável de ambiente, a função expand é chamada para expandir a variável de ambiente.
-static void	expand_heredoc(char **line)
+static void	expand_heredoc(t_shell *sh, char **line)
 {
 	int		i;
 	int		j;
@@ -48,19 +47,18 @@ static void	expand_heredoc(char **line)
 			while (ft_isalnum((*line)[j]) || (*line)[j] == '_')
 				j++;
 			tmp = ft_substr(*line, i + 1, j - i - 1);
-			expand(getenv(tmp), i, j, line);
+			expand(env_get(&sh->env, tmp), i, j, line);
 			free(tmp);
 		}
 		i++;
 	}
 }
 
-// Em seguida, a linha é impressa no arquivo "here_doc" e a memória alocada para a linha é liberada. Após o loop, o descritor de arquivo é fechado e a variável global g_exit é definida como 0. Por fim, a função free_exit é chamada.
 static void	heredoc_reader(t_shell *shell, t_here *here, int fd)
 {
 	char	*line;
 
-	fd = open("here_doc", here->mode, 0644); //Ela abre o arquivo "here_doc" com o modo de leitura e escrita
+	fd = open("here_doc", here->mode, 0644);
 	dup2(here->fdin, STDIN_FILENO);
 	dup2(here->fdout, STDOUT_FILENO);
 	while (1)
@@ -76,7 +74,7 @@ static void	heredoc_reader(t_shell *shell, t_here *here, int fd)
 			free(line);
 			break ;
 		}
-		expand_heredoc(&line); // a função expand_heredoc é chamada para expandir as variáveis de ambiente e o til.
+		expand_heredoc(shell, &line);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
@@ -93,10 +91,10 @@ void	run_heredoc(t_shell *shell, t_here *here)
 
 	len = ft_strlen(here->eof);
 	trim_quotes(here->eof, &len);
-	pid = check_fork(); // Verifica e cria um processo filho
+	pid = check_fork();
 	if (pid == 0)
 	{
-		signal_handler(SIGHEREDOC); //chama a função signal_handler para definir o sinal SIGHEREDOC
+		signal_handler(SIGHEREDOC);
 		heredoc_reader(shell, here, 0);
 	}
 	waitpid(pid, &g_exit, 0);

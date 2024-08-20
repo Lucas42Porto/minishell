@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:59:02 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:45:36 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	check_execve_errors(t_shell *shell, char *path)
 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 	else if (!access(path, F_OK) && !access(path, X_OK) && path[0] != '.')
 		ft_putendl_fd(": Is a directory", STDERR_FILENO);
-	else if (ft_strchr(path, '/') || !getenv("PATH"))
+	else if (ft_strchr(path, '/') || !env_get(&shell->env, "PATH"))
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	else
 		ft_putendl_fd(": command not found", STDERR_FILENO);
@@ -30,7 +30,7 @@ static void	check_execve_errors(t_shell *shell, char *path)
 	free_exit(shell);
 }
 
-static char	*get_path(char *cmd)
+static char	*get_path(t_shell *sh, char *cmd)
 {
 	int		i;
 	char	*path;
@@ -40,9 +40,10 @@ static char	*get_path(char *cmd)
 	i = 0;
 	path = NULL;
 	path2 = NULL;
-	if (ft_strchr("/.", cmd[0]) || !getenv("PATH") || !ft_strcmp(cmd, ""))
+	if (ft_strchr("/.", cmd[0]) || !env_get(&sh->env, "PATH") \
+			|| !ft_strcmp(cmd, ""))
 		return (ft_strdup(cmd));
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(env_get(&sh->env, "PATH"), ':');
 	while (paths[i])
 	{
 		path = ft_strjoin(paths[i], "/");
@@ -52,7 +53,7 @@ static char	*get_path(char *cmd)
 		if (!access(path2, F_OK))
 			return (path2);
 		free(path2);
-		path2 = NULL;
+		// path2 = NULL;
 		i++;
 	}
 	ft_free_array(paths);
@@ -76,20 +77,20 @@ static void	expand_argv(t_shell *shell, char **argv)
 
 	if (!argv[0])
 		return ;
-	expanded = (ft_strchr(argv[0], '$') || ft_strchr(argv[0], '*'));
+	expanded = (ft_strchr(argv[0], '$') != 0);
 	expand_arg(shell, &argv[0]);
 	len = ft_strlen(argv[0]);
-	arg_insert_null(argv[0]); // Esta função insere um caractere nulo em cada espaço em branco que não está entre aspas. Se na parseexec retiramos os nulos para colocar espaços, aqui fazemos o contrário.
-	trim_quotes(argv[0], &len); // Remover aspas
+	arg_insert_null(argv[0]);
+	trim_quotes(argv[0], &len);
 	i = 1;
 	tmp = argv[0];
-	while ((tmp < argv[0] + len) && i < (MAXARGS - 1)) 
+	while ((tmp < argv[0] + len) && i < (MAXARGS - 1))
 	{
 		if (*tmp == '\0' && (ft_strcmp(argv[0], "printf") || i != 2))
 			argv[i++] = tmp + 1;
 		tmp++;
 	}
-	if (!argv[0][0] && expanded) // $EMPTY_VAR. Neste caso a função expande, mas verifica que a expansão não expande para lado nenhum uma vez que a variável não existe. Nestes casos dá free e coloca o argumento a NULL.
+	if (!argv[0][0] && expanded)
 	{
 		free(argv[0]);
 		argv[0] = NULL;
@@ -110,15 +111,15 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	pid = check_fork();
 	if (pid == 0)
 	{
-		path = get_path(cmd->argv[0]); // cmd_path = ft_strdup(msh->paths[i]);
+		path = get_path(shell, cmd->argv[0]);
 		execve(path, cmd->argv, shell->envp);
 		check_execve_errors(shell, path);
 	}
 	waitpid(pid, &g_exit, 0);
-	if (WIFEXITED(g_exit)) // Se o processo filho terminou normalmente.
-		g_exit = WEXITSTATUS(g_exit); // Retorna o status de saída do processo filho.
-	else if (WIFSIGNALED(g_exit)) // Se o processo filho foi encerrado por um sinal.
-		g_exit = 128 + WTERMSIG(g_exit); // Retorna o sinal que encerrou o processo filho.
-	check_exit_status(); // Esta função verifica se houve erros na execução do comando.
-	signal_handler(SIGRESTORE); // Esta função trata os sinais, que mudam para o modo de execução de um processo pai.
+	if (WIFEXITED(g_exit))
+		g_exit = WEXITSTATUS(g_exit);
+	else if (WIFSIGNALED(g_exit))
+		g_exit = 128 + WTERMSIG(g_exit);
+	check_exit_status();
+	signal_handler(SIGRESTORE);
 }

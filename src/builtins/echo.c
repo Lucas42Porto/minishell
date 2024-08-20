@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:36 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/14 19:58:19 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 23:06:44 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static int	check_flag(char **argv, int *i)
 {
 	int	j;
-	int flag;
-	
+	int	flag;
+
 	flag = FALSE;
 	while (argv[*i] && !ft_strncmp(argv[*i], "-n", 2))
 	{
@@ -48,4 +48,5 @@ void	ms_echo(t_exec *cmd)
 	}
 	if (!break_l)
 		ft_putchar_fd('\n', STDOUT_FILENO);
-} 
+	g_exit = 0;
+}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:47:10 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:25:57 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,30 @@ int	run_builtin(t_shell *shell, t_exec *cmd)
 		return (ms_cd(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "pwd"))
 		return (ms_pwd(shell, cmd), 1);
-	//else if (!ft_strcmp(cmd->argv[0], "export"))
-	//	return (ms_export(shell, cmd), 1);
-	//else if (!ft_strcmp(cmd->argv[0], "unset"))
-	//	return (ms_unset(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "export"))
+		return (ms_export(shell, cmd), 1);
+	else if (!ft_strcmp(cmd->argv[0], "unset"))
+		return (ms_unset(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "env"))
 		return (ms_env(shell, cmd), 1);
 	else if (!ft_strcmp(cmd->argv[0], "exit"))
 		return (ms_exit(shell, cmd), 1);
 	return (0);
 }
+
 void	wait_children(t_shell *shell)
 {
-	if (waitpid(shell->pid, &g_exit, 0) != -1) // Espera o processo filho terminar.
+	if (waitpid(shell->pid, &g_exit, 0) != -1)
 	{
-		if (WIFEXITED(g_exit)) // Se o processo filho terminou normalmente.
+		if (WIFEXITED(g_exit))
 			g_exit = WEXITSTATUS(g_exit);
 		else if (WIFSIGNALED(g_exit))
-			g_exit = WTERMSIG(g_exit) + 128; // Obtém o sinal que causou a terminação do processo filho.
+			g_exit = WTERMSIG(g_exit) + 128;
 	}
-	while (wait(0) != -1) // Espera todos os processos filhos terminarem.
+	while (wait(0) != -1)
 		;
-	if (g_exit == 130) // Se o sinal for SIGINT.
-		shell->status = RESTORE; // O status é RESTORE. Senão o status é CONTINUE. Qual a diferença? O status RESTORE é usado para restaurar o prompt após um sinal SIGINT. O status CONTINUE é usado para continuar a execução do shell. Em termos práticos o que acontece? Se o utilizador carregar ctrl+c, o shell continua a correr. Se o utilizador carregar ctrl+d, o shell fecha. Porquê? Porque o ctrl+d é um sinal de EOF. O que é EOF? EOF é o fim do ficheiro. Se o utilizador carregar ctrl+d, o shell fecha. Se o utilizador carregar ctrl+c, o shell continua a correr. Porquê? Porque o ctrl+c é um sinal de interrupção. Se o utilizador carregar ctrl+c, o shell continua a correr.
+	if (g_exit == 130)
+		shell->status = RESTORE;
 }
 
 static void	close_fds_and_sig_handler(int fd[2], int sig)
@@ -66,10 +67,10 @@ void	run_pipe(t_shell *shell, t_pipe *cmd)
 		run_cmd(shell, cmd->left);
 		free_exit(shell);
 	}
-	if (cmd->left->type == HEREDOC) // Se o tipo do comando da esquerda for HERE_DOC.
-		wait_children(shell); // Espera o processo filho terminar.
-	if (shell->status == CONTINUE) // Se o status for CONTINUE.
-		shell->pid = check_fork(); // Cria um novo processo filho, que será o comando da direita.
+	if (cmd->left->type == HEREDOC)
+		wait_children(shell);
+	if (shell->status == CONTINUE)
+		shell->pid = check_fork();
 	if (shell->pid == 0)
 	{
 		check(dup2(fd[0], STDIN_FILENO), "dup2 error", 127);
@@ -77,8 +78,8 @@ void	run_pipe(t_shell *shell, t_pipe *cmd)
 		run_cmd(shell, cmd->right);
 		free_exit(shell);
 	}
-	close_fds_and_sig_handler(fd, 0); // Fecha os descritores de arquivo.
-	wait_children(shell); // Espera o processo filho terminar.
+	close_fds_and_sig_handler(fd, 0);
+	wait_children(shell);
 }
 
 void	run_cmd(t_shell *shell, t_cmd *cmd)
