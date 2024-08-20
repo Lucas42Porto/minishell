@@ -6,13 +6,13 @@
 /*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 23:06:17 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/20 23:31:45 by lumarque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	ft_cd(t_shell *shell, t_exec *cmd, char *path)
+void	ex_cd(t_shell *shell, char *path)
 {
 	char	*newpwd;
 	char	*tmp;
@@ -51,7 +51,7 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	if (cmd->argv[2])
 		print_error(shell, "cd", "too many arguments", 2);
 	else
-		ft_cd(shell, cmd, path);
+		ex_cd(shell, path);
 	if (shell->status == CONTINUE)
 		g_exit = 0;
 }
