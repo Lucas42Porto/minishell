@@ -48,7 +48,6 @@ char	*get_prompt(char *prompt)
 	user = getenv("USER");
 	home = getenv("HOME");
 	pwd = getenv("PWD");
-
 	prompt = ft_strdup(GREEN "minishell@");
 	prompt = ft_strjoin_free_s1(prompt, user);
 	prompt = ft_strjoin_free_s1(prompt, WHITE ":");
@@ -93,14 +92,14 @@ static int	run_ms(t_shell *shell)
 	return (shell->status);
 }
 
-int main(void)
+int	main(void)
 {
 	t_shell	shell;
 
 	g_exit = 0;
 	ft_bzero(&shell, sizeof(t_shell));
 	init_env_and_path(&shell, &shell.env);
-	while(run_ms(&shell))
+	while (run_ms(&shell))
 		;
 	clear_history();
 	return (g_exit);

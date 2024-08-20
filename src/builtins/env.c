@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 20:10:02 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/19 22:07:14 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 21:08:02 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ void	ms_env(t_shell *shell, t_exec *cmd)
 	if (shell->status == CONTINUE)
 		g_exit = 0;
 }
-

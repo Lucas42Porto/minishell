@@ -6,11 +6,9 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:58:39 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 00:58:40 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 21:53:14 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 // A função expand aloca memória para a nova linha. O comprimento
 // será o comprimento da linha original
@@ -50,7 +48,8 @@ int	expand(char *key, int i, int j, char **line)
 	return (1);
 }
 
-// Esta função expande a linha inserindo uma chave entre os índices 'i' e 'j', dando free na chave.
+// Esta função expande a linha inserindo uma chave entre os índices 'i' e 'j',
+// dando free na chave.
 int	expand_free(char *key, int i, int j, char **line)
 {
 	expand(key, i, j, line);

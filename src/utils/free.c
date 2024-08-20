@@ -6,74 +6,33 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:31:28 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 16:18:29 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 22:12:30 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	free_exec(t_exec *exec)
+void	free_env(t_env *env)
 {
-	if (!exec)
-		return ;
-	if (exec->argv[0])
-		free(exec->argv[0]);
-	free(exec);
-	exec = NULL;
-}
+	int	i;
 
-static void	free_redir(t_redir *redir)
-{
-	if (!redir)
-		return ;
-	free_cmd(redir->cmd);
-	if (redir->file)
-		free(redir->file);
-	free(redir);
-	redir = NULL;
-}
-
-static void	free_here(t_here *here)
-{
-	if (!here)
-		return ;
-	free_cmd(here->cmd);
-	if (here->eof)
-		free(here->eof);
-	free(here);
-	here = NULL;
-}
-
-static void	free_pipe(t_pipe *pipe)
-{
-	if (!pipe)
-		return ;
-	free_cmd(pipe->left);
-	free_cmd(pipe->right);
-	free(pipe);
-	pipe = NULL;
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	if (!cmd)
-		return ;
-	else if (cmd->type == PIPE)
-		free_pipe((t_pipe *)cmd);
-	else if (cmd->type == HEREDOC)
-		free_here((t_here *)cmd);
-	else if (cmd->type == REDIR)
-		free_redir((t_redir *)cmd);
-	else if (cmd->type == EXEC)
-		free_exec((t_exec *)cmd);
+	i = -1;
+	while (++i < env->size_env)
+	{
+		free(env->e_name[i]);
+		if (env->e_content[i])
+			free(env->e_content[i]);
+	}
+	free(env->e_name);
+	free(env->e_content);
 }
 
 void	clean_exit(t_shell *shell)
 {
-	if (shell->paths)
-		free_split(shell->paths);
-	free_split(shell->env.e_name);
-	free_split(shell->env.e_content);
+	free_cmd(shell->cmd);
+	free_env(&shell->env);
+	// free_split(shell->env.e_name);
+	// free_split(shell->env.e_content);
 	free(shell->user_line);
 	if (shell->oldpwd)
 		free(shell->oldpwd);

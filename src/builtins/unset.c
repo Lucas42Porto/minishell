@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 02:26:52 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 01:40:25 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 21:08:18 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	unset_var(t_env *env, char *arg, int i)
 	int	j;
 	int	old_size_env;
 
-	while (++i < env->size_env - 1)
+	while (++i < env->size_env)
 	{
 		if (!ft_strcmp(env->e_name[i], arg))
 		{

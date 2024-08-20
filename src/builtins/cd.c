@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/19 22:07:12 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 19:38:06 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	if (cmd->argv[1])
 		path = cmd->argv[1];
 	if (cmd->argv[2])
-		print_error(shell, "cd", "too many arguments", 2);
+		print_error(shell, "cd", "too many arguments", 1);
 	else
 	{
 		tmp = getcwd(NULL, 0);
@@ -45,7 +45,7 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 			free(newpwd);
 		}
 		else if (shell->status == CONTINUE)
-			print_error(shell, "cd: No such file or directory", path, 2);
+			print_error(shell, "cd: No such file or directory", path, 1);
 		free(tmp);
 	}
 	if (shell->status == CONTINUE)

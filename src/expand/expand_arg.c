@@ -6,11 +6,9 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:58:33 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 00:58:34 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 21:16:15 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../../include/minishell.h"
 

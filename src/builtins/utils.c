@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 02:26:50 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 16:01:08 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 19:27:08 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	selection_sort_env(t_env *env, int i, int j)
 {
     int min_idx;
 
-	while (++i < env->size_env - 1)
+	while (++i < env->size_env)
 	{
 		min_idx = i;
 		j = i + 1;

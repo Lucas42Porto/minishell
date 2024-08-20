@@ -6,31 +6,13 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/19 02:29:15 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 21:12:39 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	run_builtin(t_shell *shell, t_exec *cmd)
-{
-	if (!ft_strcmp(cmd->argv[0], "echo"))
-		return (ms_echo(cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "cd"))
-		return (ms_cd(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "pwd"))
-		return (ms_pwd(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "export"))
-		return (ms_export(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "unset"))
-		return (ms_unset(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "env"))
-		return (ms_env(shell, cmd), 1);
-	else if (!ft_strcmp(cmd->argv[0], "exit"))
-		return (ms_exit(shell, cmd), 1);
-	return (0);
-}
-void	wait_children(t_shell *shell)
+static void	wait_children(t_shell *shell)
 {
 	if (waitpid(shell->pid, &g_exit, 0) != -1) // Espera o processo filho terminar.
 	{
@@ -53,7 +35,7 @@ static void	close_fds_and_sig_handler(int fd[2], int sig)
 	check(close(fd[1]), "close error", 127);
 }
 
-void	run_pipe(t_shell *shell, t_pipe *cmd)
+static void	run_pipe(t_shell *shell, t_pipe *cmd)
 {
 	int	fd[2];
 

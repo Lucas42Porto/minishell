@@ -6,21 +6,11 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 02:37:07 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:27:06 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 21:14:03 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	check(int result, char *msg, int exit)
-{
-	if (result == -1)
-	{
-		ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
-		perror(msg);
-		g_exit = exit;
-	}
-}
 
 static int	expand_file(t_shell *shell, char **file)
 {
