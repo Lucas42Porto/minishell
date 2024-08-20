@@ -69,7 +69,10 @@ static void	get_userline(t_shell *shell, char *prompt)
 	shell->user_line = readline(prompt);
 	shell->user_line = ft_strtrim(shell->user_line, SPACES);
 	if (!shell->user_line)
-		clean_exit(shell, NULL);
+	{
+		ft_putendl_fd("exit", STDERR_FILENO);
+		clean_exit(shell);
+	}
 }
 
 static int	run_ms(t_shell *shell)
@@ -84,6 +87,7 @@ static int	run_ms(t_shell *shell)
 			signal_handler(SIGPIPE);
 			run_cmd(shell, shell->cmd);
 		}
+		free_cmd(shell->cmd);
 	}
 	free(shell->user_line);
 	return (shell->status);
@@ -93,10 +97,11 @@ int main(void)
 {
 	t_shell	shell;
 
+	g_exit = 0;
 	ft_bzero(&shell, sizeof(t_shell));
 	init_env_and_path(&shell, &shell.env);
 	while(run_ms(&shell))
 		;
 	clear_history();
-	return 0;
+	return (g_exit);
 }

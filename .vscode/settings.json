@@ -1,6 +1,8 @@
 {
 	"files.associations": {
 		"wait.h": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"EXPORT.C": "cpp",
+		"libft.h": "c"
 	}
 }

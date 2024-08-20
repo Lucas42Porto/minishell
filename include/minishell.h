@@ -49,6 +49,7 @@
 # define OPERATORS "<|>"
 
 # define BAD_OP "|&;()"
+# define UNSUPPORT "&*(){};\\"
 # define NOT_EXP "|></ \t\n\v\f\r"
 # define OPANDSP "|>< \t\n\v\f\r"
 
@@ -129,6 +130,7 @@ typedef struct	s_shell
 	int		status;
 	int		pid;
 	int		exec_cmd;
+	char	*oldpwd;
 }				t_shell;
 
 // envp1 file - convert
@@ -217,6 +219,13 @@ void	malloc_name_content(t_env *env, char **envp, int i);
 char	**ft_split_env(char **env, char **result, int *i);
 
 void	free_split(char **split);
-void	clean_exit(t_shell *shell, char *exit_code);
+void	clean_exit(t_shell *shell);
+
+
+void	update_env(t_env *env, char *name, char *new_value);
+int		print_error_export(t_shell *sh, char *cmd, char *arg, int exit);
+char	*env_get(t_env *env, char *name);
+int		print_error_unsupport(t_shell *sh, char *msg, int exit);
+void	selection_sort_env(t_env *env, int i, int j) ;
 
 #endif

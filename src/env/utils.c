@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/14 18:03:58 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/19 03:07:49 by resilva          ###   ########.fr       */
+/*   Created: 2024/08/19 21:42:00 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/20 01:02:07 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ms_pwd(t_shell *sh, t_exec *cmd)
+char	*env_get(t_env *env, char *name)
 {
-	char	path[1024];
+	int	i;
 
-	if (cmd->argv[1] && *cmd->argv[1] == '-')
+	i = -1;
+	while (++i < env->size_env - 1)
 	{
-		print_error(sh, ERROR_OPT, NULL, 2);
-		return ;	
+		if (!ft_strcmp(env->e_name[i], name))
+			return (env->e_content[i]);
 	}
-	if (getcwd(path, sizeof(path)))
-		ft_putendl_fd(path, STDOUT_FILENO);
-	else
-		print_error(sh, "Unable to get current directory", NULL, 2);
-	if (sh->status == CONTINUE)
-		g_exit = 0;
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:57:28 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/19 22:07:51 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_fork(void)
 }
 
 // Esta função expande o here_doc. Ela percorre a linha e verifica se o caractere atual é um til ou uma variável de ambiente. Se o caractere atual for um til, a função expand é chamada para expandir o til. Se o caractere atual for uma variável de ambiente, a função expand é chamada para expandir a variável de ambiente.
-static void	expand_heredoc(char **line)
+static void	expand_heredoc(t_shell *sh, char **line)
 {
 	int		i;
 	int		j;
@@ -48,7 +48,7 @@ static void	expand_heredoc(char **line)
 			while (ft_isalnum((*line)[j]) || (*line)[j] == '_')
 				j++;
 			tmp = ft_substr(*line, i + 1, j - i - 1);
-			expand(getenv(tmp), i, j, line);
+			expand(env_get(&sh->env, tmp), i, j, line);
 			free(tmp);
 		}
 		i++;
@@ -76,7 +76,7 @@ static void	heredoc_reader(t_shell *shell, t_here *here, int fd)
 			free(line);
 			break ;
 		}
-		expand_heredoc(&line); // a função expand_heredoc é chamada para expandir as variáveis de ambiente e o til.
+		expand_heredoc(shell, &line); // a função expand_heredoc é chamada para expandir as variáveis de ambiente e o til.
 		ft_putendl_fd(line, fd);
 		free(line);
 	}

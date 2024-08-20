@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaosilva <joaosilva@student.42.fr>        +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/30 16:40:13 by joaosilva         #+#    #+#             */
-/*   Updated: 2024/06/13 00:46:26 by joaosilva        ###   ########.fr       */
+/*   Created: 2024/08/20 00:58:39 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/20 00:58:40 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 // A função expand aloca memória para a nova linha. O comprimento
 // será o comprimento da linha original

@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joaosilva <joaosilva@student.42.fr>        +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/24 11:30:07 by joaosilva         #+#    #+#             */
-/*   Updated: 2024/06/13 00:49:16 by joaosilva        ###   ########.fr       */
+/*   Created: 2024/08/20 00:58:48 by resilva           #+#    #+#             */
+/*   Updated: 2024/08/20 00:58:49 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 #include "../../include/minishell.h"
 

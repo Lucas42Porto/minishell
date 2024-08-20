@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/16 16:30:42 by lumarque          #+#    #+#             */
-/*   Updated: 2023/05/08 20:06:01 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/19 23:05:28 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,56 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*dst;
+	char	*c;
+	size_t	len;
 	int		i;
 	int		j;
 
-	dst = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!dst || !s1 || !s2)
-		return (0);
+	len = ft_strlen(s1) + ft_strlen(s2);
+	c = (char *)malloc(len * sizeof(char) + 1);
+	if (!c)
+		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s1 && s1[i])
 	{
-		dst[i] = s1[i];
+		c[i] = s1[i];
 		i++;
 	}
 	j = 0;
-	while (s2[j] != '\0')
+	while (s2 && s2[j])
 	{
-		dst[i] = s2[j];
-		i++;
+		c[i + j] = s2[j];
 		j++;
 	}
-	dst[i] = '\0';
-	return (dst);
+	c[i + j] = '\0';
+	return (c);
 }
+
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	char	*dst;
+// 	int		i;
+// 	int		j;
+
+// 	dst = (char *) malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+// 	if (!dst || !s1 || !s2)
+// 		return (0);
+// 	i = 0;
+// 	while (s1[i] != '\0')
+// 	{
+// 		dst[i] = s1[i];
+// 		i++;
+// 	}
+// 	j = 0;
+// 	while (s2[j] != '\0')
+// 	{
+// 		dst[i] = s2[j];
+// 		i++;
+// 		j++;
+// 	}
+// 	dst[i] = '\0';
+// 	return (dst);
+// }
 
 /*int main()
 {

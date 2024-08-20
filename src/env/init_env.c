@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:52:29 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/09 22:58:38 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/19 22:07:43 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**ft_split_env(char **envp, char **result, int *i)
 
 void	extract_paths(t_shell *shell, char *path, int i)
 {
-	path = ft_strdup(getenv("PATH"));
+	path = ft_strdup(env_get(&shell->env, "PATH"));
 	if (!path)
 		return ;
 	shell->paths = ft_split(path, ':');

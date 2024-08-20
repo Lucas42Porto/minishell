@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:26:27 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/13 16:42:17 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/19 23:42:10 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,30 @@ int	print_error_syntax(t_shell *sh, char *msg, int exit)
 	}
 	else
 		ft_putchar_fd(*msg, STDERR_FILENO);
+	ft_putendl_fd("'", STDERR_FILENO);
+	sh->status = RESTORE;
+	g_exit = exit;
+	return (TRUE);
+}
+
+int	print_error_export(t_shell *sh, char *cmd, char *arg, int exit)
+{
+	ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
+	ft_putstr_fd(cmd, STDERR_FILENO);
+	ft_putchar_fd('`', STDERR_FILENO);
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_putstr_fd("': ", STDERR_FILENO);
+	ft_putendl_fd("not a valid identifier", STDERR_FILENO);
+	sh->status = RESTORE;
+	g_exit = exit;
+	return (TRUE);
+}
+
+int	print_error_unsupport(t_shell *sh, char *msg, int exit)
+{
+	ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
+	ft_putstr_fd("no support for operator `", STDERR_FILENO);
+	ft_putchar_fd(*msg, STDERR_FILENO);
 	ft_putendl_fd("'", STDERR_FILENO);
 	sh->status = RESTORE;
 	g_exit = exit;

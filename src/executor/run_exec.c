@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/13 20:59:02 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:42:16 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	check_execve_errors(t_shell *shell, char *path)
 		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 	else if (!access(path, F_OK) && !access(path, X_OK) && path[0] != '.')
 		ft_putendl_fd(": Is a directory", STDERR_FILENO);
-	else if (ft_strchr(path, '/') || !getenv("PATH"))
+	else if (ft_strchr(path, '/') || !env_get(&shell->env, "PATH"))
 		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 	else
 		ft_putendl_fd(": command not found", STDERR_FILENO);
@@ -30,7 +30,7 @@ static void	check_execve_errors(t_shell *shell, char *path)
 	free_exit(shell);
 }
 
-static char	*get_path(char *cmd)
+static char	*get_path(t_shell *sh, char *cmd)
 {
 	int		i;
 	char	*path;
@@ -40,9 +40,9 @@ static char	*get_path(char *cmd)
 	i = 0;
 	path = NULL;
 	path2 = NULL;
-	if (ft_strchr("/.", cmd[0]) || !getenv("PATH") || !ft_strcmp(cmd, ""))
+	if (ft_strchr("/.", cmd[0]) || !env_get(&sh->env, "PATH") || !ft_strcmp(cmd, ""))
 		return (ft_strdup(cmd));
-	paths = ft_split(getenv("PATH"), ':');
+	paths = ft_split(env_get(&sh->env, "PATH"), ':');
 	while (paths[i])
 	{
 		path = ft_strjoin(paths[i], "/");
@@ -76,7 +76,7 @@ static void	expand_argv(t_shell *shell, char **argv)
 
 	if (!argv[0])
 		return ;
-	expanded = (ft_strchr(argv[0], '$') || ft_strchr(argv[0], '*'));
+	expanded = (ft_strchr(argv[0], '$') != 0);
 	expand_arg(shell, &argv[0]);
 	len = ft_strlen(argv[0]);
 	arg_insert_null(argv[0]); // Esta função insere um caractere nulo em cada espaço em branco que não está entre aspas. Se na parseexec retiramos os nulos para colocar espaços, aqui fazemos o contrário.
@@ -110,7 +110,7 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	pid = check_fork();
 	if (pid == 0)
 	{
-		path = get_path(cmd->argv[0]); // cmd_path = ft_strdup(msh->paths[i]);
+		path = get_path(shell, cmd->argv[0]); // cmd_path = ft_strdup(msh->paths[i]);
 		execve(path, cmd->argv, shell->envp);
 		check_execve_errors(shell, path);
 	}
