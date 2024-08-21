@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:44:46 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 02:41:25 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/21 03:19:52 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ static int	valid_exit(char *str, int i)
 	}
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]))
+		if (!ft_isdigit(str[i++]))
 			return (FALSE);
-		i++;
 	}
 	len = ft_strlen(str) - sign;
 	if (len > 19)
@@ -59,7 +58,7 @@ void	ms_exit(t_shell *shell, t_exec *cmd)
 			free(err);
 		}
 	}
-	if (shell->status == CONTINUE)
+	if (shell->status == CONTINUE && cmd->argv[1])
 		g_exit = ft_atoi(cmd->argv[1]);
 	clean_exit(shell);
 }
