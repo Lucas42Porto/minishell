@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/20 22:24:22 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 00:49:29 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	check_fork(void)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
-		perror("fork");
-		g_exit = 127;
-	}
-	return (pid);
-}
 
 static void	expand_heredoc(t_shell *sh, char **line)
 {

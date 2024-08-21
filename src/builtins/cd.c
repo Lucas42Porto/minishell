@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 23:31:45 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 00:44:29 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ex_cd(t_shell *shell, char *path)
 	{
 		path = shell->oldpwd;
 		if (!shell->oldpwd)
-			print_error(shell, "cd", "OLDPWD not defined", 2);
+			print_error(shell, "cd", "OLDPWD not defined", 1);
 		else
 			ft_putendl_fd(shell->oldpwd, STDOUT_FILENO);
 	}
@@ -37,7 +37,7 @@ void	ex_cd(t_shell *shell, char *path)
 		free(newpwd);
 	}
 	else if (shell->status == CONTINUE)
-		print_error(shell, "cd: No such file or directory", path, 2);
+		print_error(shell, "cd: No such file or directory", path, 1);
 	free(tmp);
 }
 
@@ -49,7 +49,7 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	if (cmd->argv[1])
 		path = cmd->argv[1];
 	if (cmd->argv[2])
-		print_error(shell, "cd", "too many arguments", 2);
+		print_error(shell, "cd", "too many arguments", 1);
 	else
 		ex_cd(shell, path);
 	if (shell->status == CONTINUE)

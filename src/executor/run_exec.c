@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/20 22:45:36 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 01:43:37 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ static char	*get_path(t_shell *sh, char *cmd)
 	char	*path2;
 	char	**paths;
 
-	i = 0;
+	i = -1;
 	path = NULL;
 	path2 = NULL;
 	if (ft_strchr("/.", cmd[0]) || !env_get(&sh->env, "PATH") \
 			|| !ft_strcmp(cmd, ""))
 		return (ft_strdup(cmd));
 	paths = ft_split(env_get(&sh->env, "PATH"), ':');
-	while (paths[i])
+	while (paths[++i])
 	{
 		path = ft_strjoin(paths[i], "/");
 		path2 = ft_strjoin(path, cmd);
@@ -53,8 +53,7 @@ static char	*get_path(t_shell *sh, char *cmd)
 		if (!access(path2, F_OK))
 			return (path2);
 		free(path2);
-		// path2 = NULL;
-		i++;
+		path2 = NULL;
 	}
 	ft_free_array(paths);
 	return (ft_strdup(cmd));

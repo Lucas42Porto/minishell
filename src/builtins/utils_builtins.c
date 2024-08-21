@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 02:26:50 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 23:15:05 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 01:57:31 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static void	new_env(t_env *env, char *name, char *new_value)
+{
+	int	old_size_env;
+
+	old_size_env = sizeof(char *) * env->size_env;
+	env->e_name = ft_realloc(env->e_name, sizeof(char *) * \
+			(env->size_env + 1), old_size_env);
+	env->e_content = ft_realloc(env->e_content, sizeof(char *) * \
+			(env->size_env + 1), old_size_env);
+	env->e_name[env->size_env] = ft_strdup(name);
+	if (!new_value)
+		env->e_content[env->size_env] = NULL;
+	else
+		env->e_content[env->size_env] = ft_strdup(new_value);
+	env->size_env++;
+}
+
 void	update_env(t_env *env, char *name, char *new_value)
 {
 	int	i;
-	int	old_size_env;
 
 	i = 0;
 	while (i < env->size_env)
@@ -31,15 +47,7 @@ void	update_env(t_env *env, char *name, char *new_value)
 		}
 		i++;
 	}
-	old_size_env = sizeof(char *) * env->size_env;
-	env->e_name = ft_realloc(env->e_name, sizeof(char *) * (env->size_env + 1), old_size_env);
-	env->e_content = ft_realloc(env->e_content, sizeof(char *) * (env->size_env + 1), old_size_env);
-	env->e_name[env->size_env] = ft_strdup(name);
-	if (!new_value)
-		env->e_content[env->size_env] = NULL;
-	else
-		env->e_content[env->size_env] = ft_strdup(new_value);
-	env->size_env++;
+	new_env(env, name, new_value);
 }
 
 static void	swap(char **x, char **y)
@@ -55,7 +63,7 @@ void	selection_sort_env(t_env *env, int i, int j)
 {
 	int	min_idx;
 
-	while (++i < env->size_env - 1)
+	while (++i < env->size_env)
 	{
 		min_idx = i;
 		j = i + 1;

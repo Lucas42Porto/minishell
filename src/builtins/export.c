@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:33:07 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 23:08:44 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 00:46:19 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	valid_export_name(t_shell *sh, char *arg, int i)
 static void	print_export(t_env *env, int i)
 {
 	selection_sort_env(env, -1, 0);
-	while (++i < env->size_env - 1)
+	while (++i < env->size_env)
 	{
 		ft_putstr_fd("declare -x ", STDOUT_FILENO);
 		ft_putstr_fd(env->e_name[i], STDOUT_FILENO);

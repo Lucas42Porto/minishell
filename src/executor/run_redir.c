@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   run_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 02:37:07 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/20 22:47:58 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 00:51:47 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void	check(int result, char *msg, int exit)
-{
-	if (result == -1)
-	{
-		ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
-		perror(msg);
-		g_exit = exit;
-	}
-}
 
 static int	expand_file(t_shell *shell, char **file)
 {

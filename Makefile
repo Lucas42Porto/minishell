@@ -71,4 +71,7 @@ fclean: clean
 
 re: fclean all
 
+test: ${NAME}
+	@bash ./test/test1.sh
+
 .PHONY: all clean fclean re

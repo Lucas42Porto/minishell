@@ -30,6 +30,12 @@
 # include <readline/readline.h>
 # include <term.h>
 
+# define GREEN "\033[0;32m"
+# define RED "\033[1m\033[31m"
+# define BLUE "\033[0;34m"
+# define WHITE "\033[0;37m"
+# define RESET "\033[0m"
+
 # define STOP 0
 # define CONTINUE 1
 # define RESTORE 2
@@ -51,27 +57,21 @@
 # define BAD_OP "|&;()"
 # define UNSUPPORT "&*(){};\\"
 # define NOT_EXP "|></ \t\n\v\f\r"
-# define OPANDSP "|>< \t\n\v\f\r"
 
-# define ERROR_HEAD "\033[1m\033[31m minishell:"
-# define ERROR_QUOTE " \033[1m\033[31m unclosed quotes"
-# define ERROR_SYNTAX "\033[1m\033[31m syntax error near unexpected token `"
-# define ERROR_HERE_DOC "\033[1m\033[31m unexpected EOF while looking for matching `"
-# define ERROR_OPT "\033[1m\033[31m options are not supprted"
+# define ERROR_HEAD "\033[1m\033[31mminishell: "
+# define ERROR_QUOTE " \033[1m\033[31munclosed quotes"
+# define ERROR_SYNTAX "\033[1m\033[31msyntax error near unexpected token `"
+# define ERROR_HERE_DOC "\033[0;31munexpected EOF while looking for matching `"
+# define ERROR_OPT "\033[1m\033[31moptions are not supprted"
 
 # define SIGRESTORE 1
 # define SIGHEREDOC 2
 # define SIGCHILD 3
 # define SIGIGNORE 4
 
-# define GREEN "\033[0;32m"
-# define BLUE "\033[0;34m"
-# define WHITE "\033[0;37m"
-# define RESET "\033[0m"
-
 extern int			g_exit;
 
-typedef struct	s_env
+typedef struct s_env
 {
 	char	**e_name;
 	char	**e_content;
@@ -90,7 +90,7 @@ typedef struct s_pipe
 	t_cmd	*right;
 }				t_pipe;
 
-typedef struct	s_redir
+typedef struct s_redir
 {
 	int		type;
 	char	*file;
@@ -109,15 +109,13 @@ typedef struct s_here
 	t_cmd	*cmd;
 }				t_here;
 
-
 typedef struct s_exec
 {
 	int		type;
 	char	*argv[MAXARGS];
 }				t_exec;
 
-
-typedef struct	s_shell
+typedef struct s_shell
 {
 	char	*user_line;
 	int		size_line;
@@ -133,30 +131,13 @@ typedef struct	s_shell
 	char	*oldpwd;
 }				t_shell;
 
-// envp1 file - convert
-void				convert_envp_to_linked_lists(char **envp, t_shell *shell);
-void				convert_envp_to_char(t_shell *shell);
+// env_and_export
+void				init_env_and_path(t_shell *shell, t_env *env);
+void				update_env(t_env *env, char *name, char *new_value);
+char				*env_get(t_env *env, char *name);
+void				selection_sort_env(t_env *env, int i, int j);
 
-// envp2 file - add
-void				create_update_envp_lists(t_shell *shell, char *key,
-						char *value, int visible);
-
-// envp3 file - export/get/print
-void				env_export(t_shell *shell, char *key, char *value,
-						int visible);
-void				envp_print(t_shell *shell);
-
-// envp4 file - modify
-bool				env_mod(t_shell *shell, char *target, char *new_value);
-
-// envp5 file - rm
-void				env_rm(char *key, t_shell *shell);
-void				ft_envlstdelone(t_env *lst, void (*del)(void *));
-
-// envp6 file - clear
-void				ft_envlstclear(t_env *lst, void (*del)(void *));
-
-// Expand
+// expand
 void				expand_arg(t_shell *shell, char **arg);
 int					expand_free(char *key, int i, int j, char **line);
 int					expand(char *key, int i, int j, char **line);
@@ -166,7 +147,7 @@ void				arg_insert_null(char *arg);
 // process_line file
 int					prepare_line(t_shell *shell);
 
-// Parser
+// parser
 t_cmd				*mk_exec(void);
 t_cmd				*mk_pipe(t_cmd *left, t_cmd *right);
 t_cmd				*mk_redir(char *file, int mode, int fd, t_cmd *cmd);
@@ -176,21 +157,10 @@ int					peek(t_shell *shell, char *op);
 int					gettoken(t_shell *sh, char **token);
 t_cmd				*parsepipe(t_shell *shell);
 
-// error_frees
-int					print_error_syntax(t_shell *shell, char *msg, int exit);
-int					print_error(t_shell *shell, char *msg, char *msg2,
-						int exit);
-void				free_exit(t_shell *shell);
-int					error_inside(t_shell *shell, char *cmd, char *arg,
-						int error_code);
-void				free_cmd(t_cmd *cmd);
-
 // run_cmd
 void				run_cmd(t_shell *shell, t_cmd *cmd);
 void				run_exec(t_shell *shell, t_exec *cmd);
 void				run_redir(t_shell *shell, t_redir *cmd);
-void				run_pipe(t_shell *shell, t_pipe *cmd);
-void				wait_children(t_shell *shell);
 void				check(int result, char *msg, int exit);
 int					check_fork(void);
 void				run_heredoc(t_shell *shell, t_here *here);
@@ -209,23 +179,17 @@ void				ms_exit(t_shell *shell, t_exec *cmd);
 // sig
 void				signal_handler(int sig);
 
-////////////////////////
+// error_frees
+int					print_error_syntax(t_shell *shell, char *msg, int exit);
+int					print_error(t_shell *shell, char *msg, char *msg2,
+						int exit);
+int					print_error_unsupport(t_shell *sh, char *msg, int exit);
+int					print_error_export(t_shell *sh, char *cmd, char *arg,
+						int exit);
+void				free_exit(t_shell *shell);
 
-void	init_env_and_path(t_shell *shell, t_env *env);
-void	extract_paths(t_shell *shell, char *path, int i);
-
-void	init_env(t_shell *shell, t_env *env, char **tmp, int i);
-void	malloc_name_content(t_env *env, char **envp, int i);
-char	**ft_split_env(char **env, char **result, int *i);
-
-void	free_split(char **split);
-void	clean_exit(t_shell *shell);
-
-
-void	update_env(t_env *env, char *name, char *new_value);
-int		print_error_export(t_shell *sh, char *cmd, char *arg, int exit);
-char	*env_get(t_env *env, char *name);
-int		print_error_unsupport(t_shell *sh, char *msg, int exit);
-void	selection_sort_env(t_env *env, int i, int j) ;
+void				free_cmd(t_cmd *cmd);
+void				free_split(char **split);
+void				clean_exit(t_shell *shell);
 
 #endif

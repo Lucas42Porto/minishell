@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:52:29 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 22:52:04 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/21 00:48:19 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	**ft_split_env(char **envp, char **result, int *i)
+static char	**ft_split_env(char **envp, char **result, int *i)
 {
 	int	size_name;
 	int	size_content;
@@ -28,17 +28,7 @@ char	**ft_split_env(char **envp, char **result, int *i)
 	return (result);
 }
 
-void	extract_paths(t_shell *shell, char *path, int i)
-{
-	path = ft_strdup(env_get(&shell->env, "PATH"));
-	if (!path)
-		return ;
-	shell->paths = ft_split(path, ':');
-	(void)i;
-	free(path);
-}
-
-void	malloc_name_content(t_env *env, char **envp, int i)
+static void	malloc_name_content(t_env *env, char **envp, int i)
 {
 	while (envp[i++])
 		env->size_env++;
@@ -50,7 +40,7 @@ void	malloc_name_content(t_env *env, char **envp, int i)
 		exit(1);
 }
 
-void	init_env(t_shell *shell, t_env *env, char **tmp, int i)
+static void	init_env(t_shell *shell, t_env *env, char **tmp, int i)
 {
 	malloc_name_content(env, shell->envp, 0);
 	while (shell->envp[++i])
@@ -67,11 +57,9 @@ void	init_env(t_shell *shell, t_env *env, char **tmp, int i)
 
 void	init_env_and_path(t_shell *shell, t_env *env)
 {
-	shell->paths = NULL;
 	env->e_name = NULL;
 	env->e_content = NULL;
 	env->size_env = 0;
 	shell->envp = __environ;
 	init_env(shell, env, NULL, -1);
-	extract_paths(shell, NULL, -1);
 }

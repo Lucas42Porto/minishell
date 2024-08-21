@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 00:42:55 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/21 01:45:48 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	expand_parse(t_shell *shell, char *line, int i)
 	char	*new_line;
 	char	*left;
 	char	*right;
-	
+
 	new_line = ft_substr(line, 0, i);
 	left = ft_strjoin(new_line, " ");
 	free(new_line);
@@ -49,13 +49,8 @@ static int	expand_parse(t_shell *shell, char *line, int i)
 	return (TRUE);
 }
 
-static void	check_expand(t_shell *shell, char *line)
+static void	check_expand(t_shell *shell, char *line, int squote, int dquote)
 {
-	int		squote;
-	int		dquote;
-
-	squote = 0;
-	dquote = 0;
 	while (*line)
 	{
 		if (*line == '"' && !squote)
@@ -66,11 +61,13 @@ static void	check_expand(t_shell *shell, char *line)
 		{
 			if (!ft_strchr(" |<>", *(line - 1)))
 			{
-				if (expand_parse(shell, shell->user_line, line - shell->user_line))
+				if (expand_parse(shell, shell->user_line,
+						line - shell->user_line))
 					line = shell->user_line;
 			}
 			else if (!ft_strchr(" |<>", *(line + 1)))
-				if (expand_parse(shell, shell->user_line, line - shell->user_line + 1))
+				if (expand_parse(shell, shell->user_line,
+						line - shell->user_line + 1))
 					line = shell->user_line;
 		}
 		line++;
@@ -81,11 +78,12 @@ static void	check_expand(t_shell *shell, char *line)
 static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 {
 	char	last_char;
-	
+
 	last_char = line[ft_strlen(line) - 1];
-	if (ft_strchr(UNSUPPORT, *line) || *line == '|')
+	if (ft_strchr(UNSUPPORT, *line))
+		return (print_error_unsupport(sh, line, 2));
+	else if (*line == '|')
 		return (print_error_syntax(sh, line, 2));
-	
 	while (*line)
 	{
 		if (*line == '"' && !squote)
@@ -100,7 +98,6 @@ static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 	}
 	if (squote || dquote)
 		return (print_error(sh, ERROR_QUOTE, NULL, 2));
-	
 	if (ft_strchr(UNSUPPORT, last_char) || last_char == '|')
 		return (print_error_syntax(sh, --line, 2));
 	return (FALSE);
@@ -116,7 +113,7 @@ int	prepare_line(t_shell *shell)
 	add_history(shell->user_line);
 	if (syntax_error(shell, shell->user_line, 0, 0))
 		return (FALSE);
-	check_expand(shell, shell->user_line);
+	check_expand(shell, shell->user_line, 0, 0);
 	nullterminate(shell, -1);
 	return (TRUE);
 }
