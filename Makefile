@@ -20,7 +20,7 @@ LIBFT_PATH = libft
 LFLAGS = -L ${LIBFT_PATH} -lft -lreadline
 DN = > /dev/null
 
-SRC_DIRS = src src/env src/parser src/utils src/executor src/expand src/built_ins src/builtins
+SRC_DIRS = src src/env src/parser src/utils src/executor src/expand src/builtins
 
 SRC =	$(foreach dir, $(SRC_DIRS), $(wildcard $(dir)/*.c))
 
@@ -71,7 +71,10 @@ fclean: clean
 
 re: fclean all
 
-test: ${NAME}
+test1: ${NAME}
 	@bash ./test/test1.sh
 
-.PHONY: all clean fclean re
+test2: ${NAME}
+	@bash ./test/test2.sh
+
+.PHONY: all clean fclean re test1 test2
