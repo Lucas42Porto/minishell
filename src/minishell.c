@@ -18,7 +18,7 @@ static void	get_userline(t_shell *shell, char *prompt)
 {
 	char	*tmp;
 
-	prompt = ft_strdup(GREEN "minishell➜ " RESET);
+	prompt = ft_strdup("minishell➜ ");
 	shell->user_line = readline(prompt);
 	tmp = shell->user_line;
 	shell->user_line = ft_strtrim(shell->user_line, SPACES);

@@ -58,11 +58,11 @@
 # define UNSUPPORT "&*(){};\\"
 # define NOT_EXP "|></ \t\n\v\f\r"
 
-# define ERROR_HEAD "\033[1m\033[31mminishell: "
-# define ERROR_QUOTE " \033[1m\033[31munclosed quotes"
-# define ERROR_SYNTAX "\033[1m\033[31msyntax error near unexpected token `"
-# define ERROR_HERE_DOC "\033[0;31munexpected EOF while looking for matching `"
-# define ERROR_OPT "\033[1m\033[31moptions are not supprted"
+# define ERROR_HEAD "minishell: "
+# define ERROR_QUOTE "unclosed quotes"
+# define ERROR_SYNTAX "syntax error near unexpected token `"
+# define ERROR_HERE_DOC "unexpected EOF while looking for matching `"
+# define ERROR_OPT "options are not supprted"
 
 # define SIGRESTORE 1
 # define SIGHEREDOC 2
