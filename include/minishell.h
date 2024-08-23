@@ -30,7 +30,7 @@
 # include <readline/readline.h>
 # include <term.h>
 
-# define GREEN "\033[0;32m"
+# define GREEN "\033[1m\033[32m"
 # define RED "\033[1m\033[31m"
 # define BLUE "\033[0;34m"
 # define WHITE "\033[0;37m"
@@ -132,7 +132,7 @@ typedef struct s_shell
 }				t_shell;
 
 // env_and_export
-void				init_env_and_path(t_shell *shell, t_env *env);
+void				init_shell_and_env(t_shell *shell, t_env *env);
 void				update_env(t_env *env, char *name, char *new_value);
 char				*env_get(t_env *env, char *name);
 void				selection_sort_env(t_env *env, int i, int j);
@@ -187,7 +187,7 @@ int					print_error_unsupport(t_shell *sh, char *msg, int exit);
 int					print_error_export(t_shell *sh, char *cmd, char *arg,
 						int exit);
 void				free_exit(t_shell *shell);
-
+void				free_env(t_env *env);
 void				free_cmd(t_cmd *cmd);
 void				free_split(char **split);
 void				clean_exit(t_shell *shell);

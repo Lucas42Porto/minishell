@@ -6,13 +6,13 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:31:28 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:59:37 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/22 01:45:56 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	free_env(t_env *env)
+void	free_env(t_env *env)
 {
 	int	i;
 
@@ -29,7 +29,8 @@ static void	free_env(t_env *env)
 
 void	clean_exit(t_shell *shell)
 {
-	free_cmd(shell->cmd);
+	if (shell->cmd)
+		free_cmd(shell->cmd);
 	free_env(&shell->env);
 	free(shell->user_line);
 	if (shell->oldpwd)

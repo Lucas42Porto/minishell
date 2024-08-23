@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:26:27 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 23:16:39 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/22 23:41:15 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,15 @@ int	print_error(t_shell *sh, char *msg, char *msg2, int exit)
 
 int	print_error_syntax(t_shell *sh, char *msg, int exit)
 {
+	int	len;
+
+	len = ft_strlen(msg);
 	ft_putstr_fd(ERROR_HEAD, STDERR_FILENO);
 	ft_putstr_fd(ERROR_SYNTAX, STDERR_FILENO);
 	if (!*msg)
 		ft_putstr_fd("newline", STDERR_FILENO);
-	else if ((*(msg + 1) == *msg || *(msg - 1) == *msg) && \
-			*msg != '(' && *msg != ')' )
+	else if (len > 1 && (*(msg + 1) == *msg || *(msg - 1) == *msg) && \
+			*msg != '(' && *msg != ')')
 	{
 		ft_putchar_fd(*msg, STDERR_FILENO);
 		ft_putchar_fd(*msg, STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 02:26:52 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:46:32 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/22 02:48:02 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	unset_var(t_env *env, char *arg, int i)
 				env->e_content[j] = env->e_content[j + 1];
 				j++;
 			}
-			old_size_env = sizeof(char *) * env->size_env;
+			old_size_env = sizeof(char *) * (env->size_env);
 			env->size_env--;
 			env->e_name = ft_realloc(env->e_name, sizeof(char *) * \
 				env->size_env, old_size_env);

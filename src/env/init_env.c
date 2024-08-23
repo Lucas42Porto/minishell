@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 21:52:29 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:48:19 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/23 00:31:35 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static void	malloc_name_content(t_env *env, char **envp, int i)
 {
 	while (envp[i++])
 		env->size_env++;
-	env->e_name = (char **)malloc(sizeof(char *) * (env->size_env + 1));
+	env->e_name = malloc(sizeof(char *) * (env->size_env + 1));
 	if (!env->e_name)
-		exit(1);
-	env->e_content = (char **)malloc(sizeof(char *) * (env->size_env + 1));
+		exit(EXIT_FAILURE);
+	env->e_content = malloc(sizeof(char *) * (env->size_env + 1));
 	if (!env->e_content)
-		exit(1);
+		exit(EXIT_FAILURE);
 }
 
 static void	init_env(t_shell *shell, t_env *env, char **tmp, int i)
@@ -55,11 +55,10 @@ static void	init_env(t_shell *shell, t_env *env, char **tmp, int i)
 	env->e_content[i] = NULL;
 }
 
-void	init_env_and_path(t_shell *shell, t_env *env)
+void	init_shell_and_env(t_shell *shell, t_env *env)
 {
-	env->e_name = NULL;
-	env->e_content = NULL;
-	env->size_env = 0;
+	ft_bzero(shell, sizeof(t_shell));
+	g_exit = 0;
 	shell->envp = __environ;
 	init_env(shell, env, NULL, -1);
 }

@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 01:45:48 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/23 00:30:11 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	check_expand(t_shell *shell, char *line, int squote, int dquote)
 			squote = !squote;
 		if (!squote && !dquote && (ft_strchr("<|>", *line)))
 		{
-			if (!ft_strchr(" |<>", *(line - 1)))
+			if (line != shell->user_line && !ft_strchr(" |<>", *(line - 1)))
 			{
 				if (expand_parse(shell, shell->user_line,
 						line - shell->user_line))
@@ -108,11 +108,15 @@ int	prepare_line(t_shell *shell)
 	shell->status = CONTINUE;
 	if (!*shell->user_line)
 		return (FALSE);
-	if (env_get(&shell->env, "OLDPWD"))
-		shell->oldpwd = ft_strdup(env_get(&shell->env, "OLDPWD"));
 	add_history(shell->user_line);
 	if (syntax_error(shell, shell->user_line, 0, 0))
 		return (FALSE);
+	if (env_get(&shell->env, "OLDPWD"))
+	{
+		if (shell->oldpwd)
+			free(shell->oldpwd);
+		shell->oldpwd = ft_strdup(env_get(&shell->env, "OLDPWD"));
+	}
 	check_expand(shell, shell->user_line, 0, 0);
 	nullterminate(shell, -1);
 	return (TRUE);

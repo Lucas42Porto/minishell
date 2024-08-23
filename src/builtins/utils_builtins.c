@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 02:26:50 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 01:57:31 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/22 02:49:44 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	new_env(t_env *env, char *name, char *new_value)
 {
 	int	old_size_env;
 
-	old_size_env = sizeof(char *) * env->size_env;
+	old_size_env = sizeof(char *) * (env->size_env);
 	env->e_name = ft_realloc(env->e_name, sizeof(char *) * \
 			(env->size_env + 1), old_size_env);
 	env->e_content = ft_realloc(env->e_content, sizeof(char *) * \

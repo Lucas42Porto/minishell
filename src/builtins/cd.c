@@ -6,17 +6,14 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:44:29 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/23 00:32:57 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ex_cd(t_shell *shell, char *path)
+void	ex_cd(t_shell *shell, char *path, char *tmp, char *newpwd)
 {
-	char	*newpwd;
-	char	*tmp;
-
 	tmp = getcwd(NULL, 0);
 	if (!path)
 		path = env_get(&shell->env, "HOME");
@@ -30,6 +27,8 @@ void	ex_cd(t_shell *shell, char *path)
 	}
 	if (!chdir(path) && shell->status == CONTINUE)
 	{
+		if (shell->oldpwd)
+			free(shell->oldpwd);
 		shell->oldpwd = ft_strdup(tmp);
 		update_env(&shell->env, "OLDPWD", shell->oldpwd);
 		newpwd = getcwd(NULL, 0);
@@ -51,7 +50,7 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	if (cmd->argv[2])
 		print_error(shell, "cd", "too many arguments", 1);
 	else
-		ex_cd(shell, path);
+		ex_cd(shell, path, NULL, NULL);
 	if (shell->status == CONTINUE)
 		g_exit = 0;
 }
