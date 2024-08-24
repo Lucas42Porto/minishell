@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 18:24:35 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 22:56:15 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/24 17:31:04 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_cmd	*mk_here(char *eof, t_cmd *cmd)
 	here->fdin = dup(STDIN_FILENO);
 	here->fdout = dup(STDOUT_FILENO);
 	here->mode = O_WRONLY | O_CREAT | O_TRUNC;
-	if (cmd->type == EXEC || cmd->type == REDIR)
+	if (cmd->type == EXEC || cmd->type == REDIR || cmd->type == HEREDOC)
 		here->cmd = cmd;
 	else
 	{
@@ -52,28 +52,42 @@ t_cmd	*mk_pipe(t_cmd *left, t_cmd *right)
 	return ((t_cmd *)pipe);
 }
 
-t_cmd	*mk_redir(char *file, int mode, int fd, t_cmd *cmd)
+t_redir	*init_rd(char *file, int mode, int fd, t_cmd *cmd)
 {
 	t_redir	*redir;
-	t_cmd	*tmp;
-	t_cmd	*tmp2;
 
 	redir = (t_redir *)ft_calloc(1, sizeof(t_redir));
 	redir->file = ft_strdup(file);
 	redir->type = REDIR;
 	redir->mode = mode;
 	redir->fd = fd;
-	if (cmd->type == EXEC)
+	if (cmd->type == EXEC || cmd->type == HEREDOC)
 		redir->cmd = cmd;
-	else
+	return (redir);
+}
+
+t_cmd	*mk_redir(char *file, int mode, int fd, t_cmd *cmd)
+{
+	t_redir	*redir;
+	t_cmd	*tmp;
+	t_cmd	*tmp2;
+
+	redir = init_rd(file, mode, fd, cmd);
+	if (!(cmd->type == EXEC || cmd->type == HEREDOC))
 	{
 		tmp = cmd;
 		while (tmp->type != EXEC)
 		{
 			tmp2 = tmp;
-			tmp = ((t_redir *)tmp)->cmd;
+			if (tmp->type == REDIR)
+				tmp = ((t_redir *)tmp)->cmd;
+			else
+				tmp = ((t_here *)tmp)->cmd;
 		}
-		((t_redir *)tmp2)->cmd = (t_cmd *)redir;
+		if (tmp2->type == REDIR)
+			((t_redir *)tmp2)->cmd = (t_cmd *)redir;
+		else
+			((t_here *)tmp2)->cmd = (t_cmd *)redir;
 		redir->cmd = tmp;
 		return (cmd);
 	}

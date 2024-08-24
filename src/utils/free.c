@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 22:31:28 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/22 01:45:56 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/24 21:03:18 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,12 @@ void	free_split(char **split)
 
 void	free_exit(t_shell *shell)
 {
+	free_env(&shell->env);
+	if (shell->cmd)
+		free_cmd(shell->cmd);
 	if (shell->user_line)
 		free(shell->user_line);
-	free_cmd(shell->cmd);
+	if (shell->oldpwd)
+		free(shell->oldpwd);
 	exit(g_exit);
 }

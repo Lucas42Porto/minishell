@@ -93,10 +93,10 @@ typedef struct s_pipe
 typedef struct s_redir
 {
 	int		type;
+	t_cmd	*cmd;
 	char	*file;
 	int		mode;
 	int		fd;
-	t_cmd	*cmd;
 }				t_redir;
 
 typedef struct s_here
