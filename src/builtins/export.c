@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:33:07 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:46:19 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/26 01:15:20 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,51 @@ static int	valid_export_name(t_shell *sh, char *arg, int i)
 	return (TRUE);
 }
 
-static void	print_export(t_env *env, int i)
+static t_env	*copy_env(t_env *env, t_env *env_copy)
 {
-	selection_sort_env(env, -1, 0);
+	int	i;
+
+	i = -1;
+	env_copy = (t_env *)malloc(sizeof(t_env));
+	if (!env_copy)
+		exit(EXIT_FAILURE);
+	env_copy->e_name = malloc(sizeof(char *) * (env->size_env + 1));
+	env_copy->e_content = malloc(sizeof(char *) * (env->size_env + 1));
+	if (!env_copy->e_name || !env_copy->e_content)
+		exit(EXIT_FAILURE);
 	while (++i < env->size_env)
 	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(env->e_name[i], STDOUT_FILENO);
+		env_copy->e_name[i] = ft_strdup(env->e_name[i]);
 		if (env->e_content[i])
+			env_copy->e_content[i] = ft_strdup(env->e_content[i]);
+	}
+	env_copy->e_name[i] = NULL;
+	env_copy->e_content[i] = NULL;
+	env_copy->size_env = env->size_env;
+	return (env_copy);
+}
+
+static void	print_export(t_env *env, int i)
+{
+	t_env	*env_sort;
+
+	env_sort = NULL;
+	env_sort = copy_env(env, NULL);
+	selection_sort_env(env_sort, -1, 0);
+	while (++i < env_sort->size_env)
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(env_sort->e_name[i], STDOUT_FILENO);
+		if (env_sort->e_content[i])
 		{
 			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(env->e_content[i], STDOUT_FILENO);
+			ft_putstr_fd(env_sort->e_content[i], STDOUT_FILENO);
 			ft_putchar_fd('"', STDOUT_FILENO);
 		}
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
+	free_env(env_sort);
+	free(env_sort);
 }
 
 void	ms_export(t_shell *shell, t_exec *cmd)
