@@ -6,7 +6,7 @@
 /*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:44:46 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/24 16:42:19 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/26 10:49:42 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,24 @@ static int	valid_exit(char *str, int i)
 void	ms_exit(t_shell *shell, t_exec *cmd)
 {
 	char	*err;
+	int		flag_exit;
 
 	err = NULL;
-	ft_putendl_fd("exit", STDERR_FILENO);
+	flag_exit = 0;
+	if (shell->flag_pipe != 1)
+		ft_putendl_fd("exit", STDERR_FILENO);
 	if (cmd->argv[2])
-		print_error(shell, "exit", "too many arguments", 2);
+	{
+		flag_exit = 1;
+		if (!ft_isdigit(cmd->argv[1][0]))
+		{
+			err = ft_strjoin(cmd->argv[1], ": numeric argument required");
+			print_error(shell, "exit", err, 2);
+			free(err);
+		}
+		else
+			print_error(shell, "exit", "too many arguments", 1);
+	}
 	else if (cmd->argv[1])
 	{
 		if (!valid_exit(cmd->argv[1], 0))
@@ -60,5 +73,6 @@ void	ms_exit(t_shell *shell, t_exec *cmd)
 	}
 	if (shell->status == CONTINUE && cmd->argv[1])
 		g_exit = ft_atoi(cmd->argv[1]);
-	clean_exit(shell);
+	if (!flag_exit || !ft_isdigit(cmd->argv[1][0]))
+		clean_exit(shell);
 }

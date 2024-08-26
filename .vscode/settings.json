@@ -1,7 +1,5 @@
 {
-	"files.associations": {
-		"wait.h": "c",
-		"minishell.h": "c",
-		"FREE_CMD.C": "cpp"
-	}
+    "files.associations": {
+        "minishell.h": "c"
+    }
 }

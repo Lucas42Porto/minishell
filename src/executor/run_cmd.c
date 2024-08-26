@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/21 00:51:07 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/26 10:20:33 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static void	run_pipe(t_shell *shell, t_pipe *cmd)
 	shell->pid = check_fork();
 	if (shell->pid == 0)
 	{
+		shell->flag_pipe = 1;
 		check(dup2(fd[1], STDOUT_FILENO), "dup2 error", 127);
 		close_fds_and_sig_handler(fd, SIGIGNORE);
 		run_cmd(shell, cmd->left);
@@ -54,6 +55,7 @@ static void	run_pipe(t_shell *shell, t_pipe *cmd)
 		shell->pid = check_fork();
 	if (shell->pid == 0)
 	{
+		shell->flag_pipe = 1;
 		check(dup2(fd[0], STDIN_FILENO), "dup2 error", 127);
 		close_fds_and_sig_handler(fd, SIGIGNORE);
 		run_cmd(shell, cmd->right);
@@ -73,4 +75,5 @@ void	run_cmd(t_shell *shell, t_cmd *cmd)
 		run_heredoc(shell, (t_here *)cmd);
 	else if (cmd->type == PIPE)
 		run_pipe(shell, (t_pipe *)cmd);
+	shell->flag_pipe = 0;
 }

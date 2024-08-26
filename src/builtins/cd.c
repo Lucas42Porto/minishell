@@ -6,7 +6,7 @@
 /*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/24 21:04:10 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/26 12:15:40 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,9 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	int		flag;
 
 	flag = 0;
-	if (getcwd(NULL, 0))
-	{
-		tmp = getcwd(NULL, 0);
+	tmp = getcwd(NULL, 0);
+	if (tmp)
 		flag = 1;
-	}
 	else
 		tmp = env_get(&shell->env, "PWD");
 	path = NULL;

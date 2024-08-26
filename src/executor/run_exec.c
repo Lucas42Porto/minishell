@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/21 01:43:37 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/26 08:39:51 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ static char	*get_path(t_shell *sh, char *cmd)
 		free(path);
 		path = NULL;
 		if (!access(path2, F_OK))
+		{
+			ft_free_array(paths);
 			return (path2);
+		}
 		free(path2);
 		path2 = NULL;
 	}

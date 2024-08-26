@@ -6,7 +6,7 @@
 /*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:33:07 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/26 01:15:20 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/26 13:34:28 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	export_var(t_shell *sh, char *arg)
 	char	*name;
 	char	*value;
 
+	name = NULL;
 	value = NULL;
 	equal = ft_strchr(arg, '=');
 	if (equal)
@@ -27,12 +28,13 @@ static void	export_var(t_shell *sh, char *arg)
 		value = ft_strdup(equal + 1);
 		update_env(&sh->env, name, value);
 	}
-	else
+	else if (!env_get_exp(&sh->env, arg))
 	{
 		name = ft_strdup(arg);
-		update_env(&sh->env, name, NULL);
+		update_env(&sh->env, name, NULL);	
 	}
-	free(name);
+	if (name)
+		free(name);
 	if (value)
 		free(value);
 }
@@ -51,12 +53,11 @@ static int	valid_export_name(t_shell *sh, char *arg, int i)
 	return (TRUE);
 }
 
-static t_env	*copy_env(t_env *env, t_env *env_copy)
+static void	copy_env(t_env *env, t_env *env_copy)
 {
 	int	i;
 
 	i = -1;
-	env_copy = (t_env *)malloc(sizeof(t_env));
 	if (!env_copy)
 		exit(EXIT_FAILURE);
 	env_copy->e_name = malloc(sizeof(char *) * (env->size_env + 1));
@@ -66,21 +67,19 @@ static t_env	*copy_env(t_env *env, t_env *env_copy)
 	while (++i < env->size_env)
 	{
 		env_copy->e_name[i] = ft_strdup(env->e_name[i]);
-		if (env->e_content[i])
+		if (!env->e_content[i])
+			env_copy->e_content[i] = NULL;
+		else
 			env_copy->e_content[i] = ft_strdup(env->e_content[i]);
 	}
 	env_copy->e_name[i] = NULL;
 	env_copy->e_content[i] = NULL;
 	env_copy->size_env = env->size_env;
-	return (env_copy);
 }
 
-static void	print_export(t_env *env, int i)
+static void	print_export(t_env *env, t_env *env_sort, int i)
 {
-	t_env	*env_sort;
-
-	env_sort = NULL;
-	env_sort = copy_env(env, NULL);
+	copy_env(env, env_sort);
 	selection_sort_env(env_sort, -1, 0);
 	while (++i < env_sort->size_env)
 	{
@@ -95,7 +94,6 @@ static void	print_export(t_env *env, int i)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 	free_env(env_sort);
-	free(env_sort);
 }
 
 void	ms_export(t_shell *shell, t_exec *cmd)
@@ -104,7 +102,7 @@ void	ms_export(t_shell *shell, t_exec *cmd)
 
 	i = 1;
 	if (!cmd->argv[1])
-		print_export(&shell->env, -1);
+		print_export(&shell->env, &shell->env_sort, -1);
 	else
 	{
 		while (cmd->argv[i])

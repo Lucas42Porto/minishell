@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:36 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 23:06:44 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:43:55 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	check_flag(char **argv, int *i)
 	flag = FALSE;
 	while (argv[*i] && !ft_strncmp(argv[*i], "-n", 2))
 	{
-		j = 2;
+		j = 1;
 		while (argv[*i][j] == 'n')
 		{
 			j++;

@@ -122,12 +122,12 @@ typedef struct s_shell
 	char	*ps;
 	char	*es;
 	t_env	env;
+	t_env	env_sort;
 	char	**envp;
-	char	**paths;
 	t_cmd	*cmd;
 	int		status;
 	int		pid;
-	int		exec_cmd;
+	int		flag_pipe;
 	char	*oldpwd;
 }				t_shell;
 
@@ -135,6 +135,7 @@ typedef struct s_shell
 void				init_shell_and_env(t_shell *shell, t_env *env);
 void				update_env(t_env *env, char *name, char *new_value);
 char				*env_get(t_env *env, char *name);
+char				*env_get_exp(t_env *env, char *name);
 void				selection_sort_env(t_env *env, int i, int j);
 
 // expand
@@ -191,5 +192,4 @@ void				free_env(t_env *env);
 void				free_cmd(t_cmd *cmd);
 void				free_split(char **split);
 void				clean_exit(t_shell *shell);
-
 #endif
