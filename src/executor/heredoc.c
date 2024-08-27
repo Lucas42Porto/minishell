@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/21 00:49:29 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 00:35:31 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	heredoc_reader(t_shell *shell, t_here *here, int fd)
 {
 	char	*line;
 
-	fd = open("here_doc", here->mode, 0644);
+	fd = open("/tmp/here_doc", here->mode, 0644);
 	dup2(here->fdin, STDIN_FILENO);
 	dup2(here->fdout, STDOUT_FILENO);
 	while (1)
@@ -85,11 +85,11 @@ void	run_heredoc(t_shell *shell, t_here *here)
 	}
 	waitpid(pid, &g_exit, 0);
 	g_exit = WEXITSTATUS(g_exit);
-	fd = open("here_doc", O_RDONLY);
+	fd = open("/tmp/here_doc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	if (g_exit == 0)
 		run_cmd(shell, here->cmd);
 	dup2(here->fdin, STDIN_FILENO);
-	unlink("here_doc");
+	unlink("/tmp/here_doc");
 }

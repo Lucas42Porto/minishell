@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/26 10:20:33 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 00:17:45 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ static void	close_fds_and_sig_handler(int fd[2], int sig)
 	check(close(fd[1]), "close error", 127);
 }
 
-static void	run_pipe(t_shell *shell, t_pipe *cmd)
+static void	run_pipe(t_shell *shell, t_pipe *cmd, int *fd)
 {
-	int	fd[2];
-
 	check(pipe(fd), "pipe error", 127);
 	shell->pid = check_fork();
 	if (shell->pid == 0)
@@ -67,6 +65,8 @@ static void	run_pipe(t_shell *shell, t_pipe *cmd)
 
 void	run_cmd(t_shell *shell, t_cmd *cmd)
 {
+	int	fd[2];
+
 	if (cmd->type == EXEC)
 		run_exec(shell, (t_exec *)cmd);
 	else if (cmd->type == REDIR)
@@ -74,6 +74,6 @@ void	run_cmd(t_shell *shell, t_cmd *cmd)
 	else if (cmd->type == HEREDOC)
 		run_heredoc(shell, (t_here *)cmd);
 	else if (cmd->type == PIPE)
-		run_pipe(shell, (t_pipe *)cmd);
+		run_pipe(shell, (t_pipe *)cmd, fd);
 	shell->flag_pipe = 0;
 }
