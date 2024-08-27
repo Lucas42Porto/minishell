@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:58:33 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 22:53:37 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/27 21:59:58 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	point_to_exp_tilde(t_shell *sh, int point, char *tmp, char **line)
 {
 	if (!tmp[1] || ft_strchr(NOT_EXP, tmp[1]))
-		return (expand(env_get(&sh->env, "HOME"), point, point + 1, line));
+		return (expand(env_get_exp(&sh->env, "HOME"), point, point + 1, line));
 	else if (tmp[1] == '+' && (!tmp[2] || ft_strchr(NOT_EXP, tmp[2])))
 		return (expand(env_get(&sh->env, "PWD"), point, point + 2, line));
 	else if (tmp[1] == '-' && (!tmp[2] || ft_strchr(NOT_EXP, tmp[2])))
@@ -77,7 +77,10 @@ static void	env_expand(t_shell *sh, char *tmp, char **line)
 	while (*(++tmp))
 	{
 		if (!quote && (*tmp == '"' || *tmp == '\''))
+		{
 			quote = *tmp;
+			sh->exp_quote = 1;
+		}
 		else if (quote == *tmp)
 			quote = 0;
 		if (*tmp == '$' && !ft_strchr(NOT_EXP, *(tmp + 1)) && quote != '\''

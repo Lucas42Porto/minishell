@@ -129,6 +129,7 @@ typedef struct s_shell
 	int		pid;
 	int		flag_pipe;
 	char	*oldpwd;
+	int		exp_quote;
 }				t_shell;
 
 // env_and_export
@@ -192,4 +193,5 @@ void				free_env(t_env *env);
 void				free_cmd(t_cmd *cmd);
 void				free_split(char **split);
 void				clean_exit(t_shell *shell);
+
 #endif

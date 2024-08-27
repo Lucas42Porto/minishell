@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/26 12:15:40 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/27 22:24:04 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ex_cd(t_shell *shell, char *path, char *tmp)
 {
 	char	*newpwd;
 
-	if (!path)
+	if (!path || !ft_strcmp(path, "~"))
 		path = env_get(&shell->env, "HOME");
 	else if (!ft_strcmp(path, "-"))
 	{

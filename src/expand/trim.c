@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lumarque <lumarque@student.42.fr>          +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:58:48 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/20 22:54:45 by lumarque         ###   ########.fr       */
+/*   Updated: 2024/08/27 21:26:25 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	trim_quotes(char *arg, int *len)
 		if ((arg[i] == '"' || arg[i] == '\'') && !quote)
 		{
 			quote = arg[i];
-			memmove(arg + i, arg + i + 1, *len - i);
+			ft_memmove(arg + i, arg + i + 1, *len - i);
 			(*len)--;
 		}
 		else if (quote && arg[i] == quote)
 		{
 			quote = 0;
-			memmove(arg + i, arg + i + 1, *len - i);
+			ft_memmove(arg + i, arg + i + 1, *len - i);
 			(*len)--;
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/26 08:39:51 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/27 22:27:12 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,12 @@ static void	check_execve_errors(t_shell *shell, char *path)
 	free_exit(shell);
 }
 
-static char	*get_path(t_shell *sh, char *cmd)
+static char	*get_path(t_shell *sh, char *cmd, char *path, char *path2)
 {
 	int		i;
-	char	*path;
-	char	*path2;
 	char	**paths;
 
 	i = -1;
-	path = NULL;
-	path2 = NULL;
 	if (ft_strchr("/.", cmd[0]) || !env_get(&sh->env, "PATH") \
 			|| !ft_strcmp(cmd, ""))
 		return (ft_strdup(cmd));
@@ -113,7 +109,7 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	pid = check_fork();
 	if (pid == 0)
 	{
-		path = get_path(shell, cmd->argv[0]);
+		path = get_path(shell, cmd->argv[0], NULL, NULL);
 		execve(path, cmd->argv, shell->envp);
 		check_execve_errors(shell, path);
 	}

@@ -3,35 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:33:07 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/26 13:34:28 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/27 22:31:58 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	export_var(t_shell *sh, char *arg)
+static void	export_var(t_shell *sh, char *arg, char *name, char *value)
 {
 	char	*equal;
-	char	*name;
-	char	*value;
 
-	name = NULL;
-	value = NULL;
 	equal = ft_strchr(arg, '=');
 	if (equal)
 	{
 		*equal = '\0';
 		name = ft_strdup(arg);
 		value = ft_strdup(equal + 1);
+		if (!sh->exp_quote && !ft_strcmp(name, "HOME") \
+			&& !ft_strcmp(value, "~"))
+		{
+			free(value);
+			value = ft_strdup(env_get(&sh->env, "HOME"));
+		}
 		update_env(&sh->env, name, value);
 	}
-	else if (!env_get_exp(&sh->env, arg))
+	else if (!env_get(&sh->env, arg))
 	{
 		name = ft_strdup(arg);
-		update_env(&sh->env, name, NULL);	
+		update_env(&sh->env, name, NULL);
 	}
 	if (name)
 		free(name);
@@ -108,7 +110,7 @@ void	ms_export(t_shell *shell, t_exec *cmd)
 		while (cmd->argv[i])
 		{
 			if (valid_export_name(shell, cmd->argv[i], -1))
-				export_var(shell, cmd->argv[i]);
+				export_var(shell, cmd->argv[i], NULL, NULL);
 			i++;
 		}
 	}
