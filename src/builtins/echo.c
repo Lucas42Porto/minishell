@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:36 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/26 09:43:55 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 05:29:43 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static int	check_flag(char **argv, int *i)
 	int	flag;
 
 	flag = FALSE;
+	while (*i < MAXARGS - 1 && !argv[*i])
+		(*i)++;
 	while (argv[*i] && !ft_strncmp(argv[*i], "-n", 2))
 	{
 		j = 1;
@@ -40,9 +42,16 @@ void	ms_echo(t_exec *cmd)
 
 	i = 1;
 	break_l = check_flag(cmd->argv, &i);
+	while (i < MAXARGS - 1 && !cmd->argv[i])
+		i++;
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i++], STDOUT_FILENO);
+		if (i == 0)
+			i++;
+		if (cmd->argv[i])
+			ft_putstr_fd(cmd->argv[i++], STDOUT_FILENO);
+		while (i < MAXARGS - 1 && !cmd->argv[i])
+			i++;
 		if (cmd->argv[i])
 			ft_putchar_fd(' ', STDOUT_FILENO);
 	}

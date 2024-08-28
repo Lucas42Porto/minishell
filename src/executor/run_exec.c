@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/27 22:27:12 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 05:00:29 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,15 @@ static void	check_exit_status(void)
 		ft_putendl_fd("Floating point exception (core dumped)", STDERR_FILENO);
 }
 
-static void	expand_argv(t_shell *shell, char **argv)
+static void	expand_argv(t_shell *shell, char **argv, int *expanded)
 {
 	int		len;
 	int		i;
-	int		expanded;
 	char	*tmp;
 
 	if (!argv[0])
 		return ;
-	expanded = (ft_strchr(argv[0], '$') != 0);
+	*expanded = (ft_strchr(argv[0], '$') != 0);
 	expand_arg(shell, &argv[0]);
 	len = ft_strlen(argv[0]);
 	arg_insert_null(argv[0]);
@@ -88,7 +87,7 @@ static void	expand_argv(t_shell *shell, char **argv)
 			argv[i++] = tmp + 1;
 		tmp++;
 	}
-	if (!argv[0][0] && expanded)
+	if (!argv[0][0] && *expanded)
 	{
 		free(argv[0]);
 		argv[0] = NULL;
@@ -99,8 +98,10 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 {
 	pid_t	pid;
 	char	*path;
+	int		expanded;
 
-	expand_argv(shell, cmd->argv);
+	expand_argv(shell, cmd->argv, &expanded);
+	check_void(cmd, expanded, shell->exp_quote);
 	if (!cmd->argv[0])
 		return (g_exit = 0, (void)0);
 	if (run_builtin(shell, cmd))

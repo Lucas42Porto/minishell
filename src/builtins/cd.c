@@ -6,17 +6,17 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/27 22:24:04 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 01:10:51 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ex_cd(t_shell *shell, char *path, char *tmp)
+static void	ex_cd(t_shell *shell, t_exec *cmd, char *path, char *tmp)
 {
 	char	*newpwd;
 
-	if (!path || !ft_strcmp(path, "~"))
+	if (!path || !ft_strcmp(path, "~") || !*cmd->argv[1])
 		path = env_get(&shell->env, "HOME");
 	else if (!ft_strcmp(path, "-"))
 	{
@@ -58,7 +58,7 @@ void	ms_cd(t_shell *shell, t_exec *cmd)
 	if (cmd->argv[2])
 		print_error(shell, "cd", "too many arguments", 1);
 	else
-		ex_cd(shell, path, tmp);
+		ex_cd(shell, cmd, path, tmp);
 	if (flag)
 		free(tmp);
 	if (shell->status == CONTINUE)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 00:48:59 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:49:15 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 05:00:37 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ void	check(int result, char *msg, int exit)
 		perror(msg);
 		g_exit = exit;
 	}
+}
+
+void	check_void(t_exec *cmd, int expanded, int quote)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->argv[++i] && expanded && !quote)
+		if (!cmd->argv[i][0])
+			cmd->argv[i] = NULL;
 }
 
 int	run_builtin(t_shell *shell, t_exec *cmd)

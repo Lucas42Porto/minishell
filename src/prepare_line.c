@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/24 18:24:04 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/28 04:49:44 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ static int	syntax_error(t_shell *sh, char *line, int squote, int dquote)
 int	prepare_line(t_shell *shell)
 {
 	shell->status = CONTINUE;
+	shell->exp_quote = 0;
 	if (!*shell->user_line)
 		return (FALSE);
 	add_history(shell->user_line);

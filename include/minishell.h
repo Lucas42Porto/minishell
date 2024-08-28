@@ -166,6 +166,7 @@ void				run_redir(t_shell *shell, t_redir *cmd);
 void				check(int result, char *msg, int exit);
 int					check_fork(void);
 void				run_heredoc(t_shell *shell, t_here *here);
+void				check_void(t_exec *cmd, int expanded, int quote);
 
 // built-in
 int					run_builtin(t_shell *shell, t_exec *cmd);
