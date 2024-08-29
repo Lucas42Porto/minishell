@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 00:48:59 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/28 05:00:37 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:30:50 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,20 @@ void	check(int result, char *msg, int exit)
 	}
 }
 
-void	check_void(t_exec *cmd, int expanded, int quote)
+void	check_void(t_shell *sh, t_exec *cmd, int expanded, int quote)
 {
 	int	i;
 
 	i = 0;
 	while (cmd->argv[++i] && expanded && !quote)
+	{
 		if (!cmd->argv[i][0])
 			cmd->argv[i] = NULL;
+	}
+	i = 0;
+	while (++i < (MAXARGS - 1))
+		if (cmd->argv[i])
+			sh->argv_index[i] = 1;
 }
 
 int	run_builtin(t_shell *shell, t_exec *cmd)

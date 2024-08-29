@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/28 00:35:31 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 17:46:07 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static void	expand_heredoc(t_shell *sh, char **line)
 			expand(tmp, i, i + 2, line);
 			free(tmp);
 		}
-		else if ((*line)[i] == '$' && ft_isalpha((*line)[i + 1]))
+		else if ((*line)[i] == '$' && ft_isalpha((*line)[i + 1]) \
+			&& !sh->exp_quote)
 		{
 			j = i + 1;
 			while (ft_isalnum((*line)[j]) || (*line)[j] == '_')
@@ -76,7 +77,7 @@ void	run_heredoc(t_shell *shell, t_here *here)
 	pid_t	pid;
 
 	len = ft_strlen(here->eof);
-	trim_quotes(here->eof, &len);
+	trim_quotes(shell, here->eof, &len);
 	pid = check_fork();
 	if (pid == 0)
 	{

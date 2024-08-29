@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:44:32 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/28 04:49:44 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 12:22:42 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	prepare_line(t_shell *shell)
 {
 	shell->status = CONTINUE;
 	shell->exp_quote = 0;
+	ft_bzero(shell->argv_index, sizeof(shell->argv_index));
 	if (!*shell->user_line)
 		return (FALSE);
 	add_history(shell->user_line);

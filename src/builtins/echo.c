@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 18:04:36 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/28 05:29:43 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:31:29 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static int	check_flag(char **argv, int *i)
 		}
 		flag = TRUE;
 		(*i)++;
+		while (*i < MAXARGS - 1 && !argv[*i])
+			(*i)++;
 	}
 	return (flag);
 }

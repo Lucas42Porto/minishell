@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/28 05:00:29 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 16:59:49 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	expand_argv(t_shell *shell, char **argv, int *expanded)
 	expand_arg(shell, &argv[0]);
 	len = ft_strlen(argv[0]);
 	arg_insert_null(argv[0]);
-	trim_quotes(argv[0], &len);
+	trim_quotes(shell, argv[0], &len);
 	i = 1;
 	tmp = argv[0];
 	while ((tmp < argv[0] + len) && i < (MAXARGS - 1))
@@ -101,7 +101,7 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	int		expanded;
 
 	expand_argv(shell, cmd->argv, &expanded);
-	check_void(cmd, expanded, shell->exp_quote);
+	check_void(shell, cmd, expanded, shell->exp_quote);
 	if (!cmd->argv[0])
 		return (g_exit = 0, (void)0);
 	if (run_builtin(shell, cmd))

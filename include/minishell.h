@@ -130,69 +130,71 @@ typedef struct s_shell
 	int		flag_pipe;
 	char	*oldpwd;
 	int		exp_quote;
+	int		argv_index[MAXARGS];
 }				t_shell;
 
 // env_and_export
-void				init_shell_and_env(t_shell *shell, t_env *env);
-void				update_env(t_env *env, char *name, char *new_value);
-char				*env_get(t_env *env, char *name);
-char				*env_get_exp(t_env *env, char *name);
-void				selection_sort_env(t_env *env, int i, int j);
+void			init_shell_and_env(t_shell *shell, t_env *env);
+void			update_env(t_env *env, char *name, char *new_value);
+char			*env_get(t_env *env, char *name);
+char			*env_get_exp(t_env *env, char *name);
+void			selection_sort_env(t_env *env, int i, int j);
+void			copy_env(t_env *env, t_env *env_copy);
 
 // expand
-void				expand_arg(t_shell *shell, char **arg);
-int					expand_free(char *key, int i, int j, char **line);
-int					expand(char *key, int i, int j, char **line);
-void				trim_quotes(char *arg, int *len);
-void				arg_insert_null(char *arg);
+void			expand_arg(t_shell *shell, char **arg);
+int				expand_free(char *key, int i, int j, char **line);
+int				expand(char *key, int i, int j, char **line);
+void			trim_quotes(t_shell *sh, char *arg, int *len);
+void			arg_insert_null(char *arg);
 
 // process_line file
-int					prepare_line(t_shell *shell);
+int				prepare_line(t_shell *shell);
 
 // parser
-t_cmd				*mk_exec(void);
-t_cmd				*mk_pipe(t_cmd *left, t_cmd *right);
-t_cmd				*mk_redir(char *file, int mode, int fd, t_cmd *cmd);
-t_cmd				*mk_here(char *eof, t_cmd *cmd);
-int					parse(t_shell *shell);
-int					peek(t_shell *shell, char *op);
-int					gettoken(t_shell *sh, char **token);
-t_cmd				*parsepipe(t_shell *shell);
+t_cmd			*mk_exec(void);
+t_cmd			*mk_pipe(t_cmd *left, t_cmd *right);
+t_cmd			*mk_redir(char *file, int mode, int fd, t_cmd *cmd);
+t_cmd			*mk_here(char *eof, t_cmd *cmd);
+int				parse(t_shell *shell);
+int				peek(t_shell *shell, char *op);
+int				gettoken(t_shell *sh, char **token);
+t_cmd			*parsepipe(t_shell *shell);
 
 // run_cmd
-void				run_cmd(t_shell *shell, t_cmd *cmd);
-void				run_exec(t_shell *shell, t_exec *cmd);
-void				run_redir(t_shell *shell, t_redir *cmd);
-void				check(int result, char *msg, int exit);
-int					check_fork(void);
-void				run_heredoc(t_shell *shell, t_here *here);
-void				check_void(t_exec *cmd, int expanded, int quote);
+void			run_cmd(t_shell *shell, t_cmd *cmd);
+void			run_exec(t_shell *shell, t_exec *cmd);
+void			run_redir(t_shell *shell, t_redir *cmd);
+void			check(int result, char *msg, int exit);
+int				check_fork(void);
+void			run_heredoc(t_shell *shell, t_here *here);
+void			check_void(t_shell *sh, t_exec *cmd, int expanded, int quote);
 
 // built-in
-int					run_builtin(t_shell *shell, t_exec *cmd);
-void				ms_echo(t_exec *cmd);
-void				ms_cd(t_shell *shell, t_exec *cmd);
-bool				ms_chdir(t_shell *shell, char *path);
-void				ms_pwd(t_shell *shell, t_exec *cmd);
-void				ms_export(t_shell *shell, t_exec *cmd);
-void				ms_unset(t_shell *shell, t_exec *cmd);
-void				ms_env(t_shell *shell, t_exec *cmd);
-void				ms_exit(t_shell *shell, t_exec *cmd);
+int				run_builtin(t_shell *shell, t_exec *cmd);
+void			ms_echo(t_exec *cmd);
+void			ms_cd(t_shell *shell, t_exec *cmd);
+bool			ms_chdir(t_shell *shell, char *path);
+void			ms_pwd(t_shell *shell, t_exec *cmd);
+void			ms_export(t_shell *shell, t_exec *cmd);
+void			ms_unset(t_shell *shell, t_exec *cmd);
+void			ms_env(t_shell *shell, t_exec *cmd);
+void			ms_exit(t_shell *shell, t_exec *cmd);
 
 // sig
-void				signal_handler(int sig);
+void			signal_handler(int sig);
 
 // error_frees
-int					print_error_syntax(t_shell *shell, char *msg, int exit);
-int					print_error(t_shell *shell, char *msg, char *msg2,
-						int exit);
-int					print_error_unsupport(t_shell *sh, char *msg, int exit);
-int					print_error_export(t_shell *sh, char *cmd, char *arg,
-						int exit);
-void				free_exit(t_shell *shell);
-void				free_env(t_env *env);
-void				free_cmd(t_cmd *cmd);
-void				free_split(char **split);
-void				clean_exit(t_shell *shell);
+int				print_error_syntax(t_shell *shell, char *msg, int exit);
+int				print_error(t_shell *shell, char *msg, char *msg2,
+					int exit);
+int				print_error_unsupport(t_shell *sh, char *msg, int exit);
+int				print_error_export(t_shell *sh, char *cmd, char *arg,
+					int exit);
+void			free_exit(t_shell *shell);
+void			free_env(t_env *env);
+void			free_cmd(t_cmd *cmd);
+void			free_split(char **split);
+void			clean_exit(t_shell *shell);
 
 #endif

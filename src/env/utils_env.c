@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 21:42:00 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/27 22:23:48 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:07:38 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ char	*env_get_exp(t_env *env, char *name)
 	while (++i < env->size_env)
 	{
 		if (!ft_strcmp(env->e_name[i], "HOME") \
+			&& env->e_content[i] == NULL)
+			return (NULL);
+		else if (!ft_strcmp(env->e_name[i], "HOME") \
 			&& !ft_strcmp(env->e_content[i], "~"))
 			return (NULL);
 		else if (!ft_strcmp(env->e_name[i], name))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:58:33 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/28 02:27:53 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:07:19 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ static void	env_expand(t_shell *sh, char *tmp, char **line)
 	while (*(++tmp))
 	{
 		if (!quote && (*tmp == '"' || *tmp == '\''))
-		{
 			quote = *tmp;
-			sh->exp_quote = 1;
-		}
 		else if (quote == *tmp)
 			quote = 0;
 		if (*tmp == '$' && !ft_strchr(NOT_EXP, *(tmp + 1)) && quote != '\''

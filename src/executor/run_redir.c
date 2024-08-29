@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_redir.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 02:37:07 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/21 00:51:47 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 16:59:54 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	expand_file(t_shell *shell, char **file)
 	expand_arg(shell, file);
 	len = ft_strlen(*file);
 	arg_insert_null(*file);
-	trim_quotes(*file, &len);
+	trim_quotes(shell, *file, &len);
 	return (1);
 }
 

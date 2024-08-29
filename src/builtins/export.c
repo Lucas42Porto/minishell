@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
+/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:33:07 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/27 22:31:58 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/29 18:25:12 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+static void	specific_update(t_shell *sh, char **name, char **value)
+{
+	if (!sh->exp_quote && !ft_strcmp(*name, "HOME") \
+		&& !ft_strcmp(*value, "~"))
+	{
+		free(*value);
+		*value = env_get(&sh->env, "HOME");
+		if (*value)
+			*value = ft_strdup(*value);
+	}
+	update_env(&sh->env, *name, *value);
+}
 
 static void	export_var(t_shell *sh, char *arg, char *name, char *value)
 {
@@ -22,13 +35,7 @@ static void	export_var(t_shell *sh, char *arg, char *name, char *value)
 		*equal = '\0';
 		name = ft_strdup(arg);
 		value = ft_strdup(equal + 1);
-		if (!sh->exp_quote && !ft_strcmp(name, "HOME") \
-			&& !ft_strcmp(value, "~"))
-		{
-			free(value);
-			value = ft_strdup(env_get(&sh->env, "HOME"));
-		}
-		update_env(&sh->env, name, value);
+		specific_update(sh, &name, &value);
 	}
 	else if (!env_get(&sh->env, arg))
 	{
@@ -53,30 +60,6 @@ static int	valid_export_name(t_shell *sh, char *arg, int i)
 			return (!print_error_export(sh, "export: ", arg, 1));
 	}
 	return (TRUE);
-}
-
-static void	copy_env(t_env *env, t_env *env_copy)
-{
-	int	i;
-
-	i = -1;
-	if (!env_copy)
-		exit(EXIT_FAILURE);
-	env_copy->e_name = malloc(sizeof(char *) * (env->size_env + 1));
-	env_copy->e_content = malloc(sizeof(char *) * (env->size_env + 1));
-	if (!env_copy->e_name || !env_copy->e_content)
-		exit(EXIT_FAILURE);
-	while (++i < env->size_env)
-	{
-		env_copy->e_name[i] = ft_strdup(env->e_name[i]);
-		if (!env->e_content[i])
-			env_copy->e_content[i] = NULL;
-		else
-			env_copy->e_content[i] = ft_strdup(env->e_content[i]);
-	}
-	env_copy->e_name[i] = NULL;
-	env_copy->e_content[i] = NULL;
-	env_copy->size_env = env->size_env;
 }
 
 static void	print_export(t_env *env, t_env *env_sort, int i)
