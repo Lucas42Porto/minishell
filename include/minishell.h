@@ -117,19 +117,21 @@ typedef struct s_exec
 
 typedef struct s_shell
 {
-	char	*user_line;
-	int		size_line;
-	char	*ps;
-	char	*es;
+	t_cmd	*cmd;
 	t_env	env;
 	t_env	env_sort;
 	char	**envp;
-	t_cmd	*cmd;
+	char	*user_line;
+	char	*ps;
+	char	*es;
+	char	*oldpwd;
+	int		size_line;
 	int		status;
 	int		pid;
 	int		flag_pipe;
-	char	*oldpwd;
-	int		exp_quote;
+	int		flag_redir;
+	int		flag_here;
+	int		flag_quote;
 	int		argv_index[MAXARGS];
 }				t_shell;
 
@@ -150,6 +152,7 @@ void			arg_insert_null(char *arg);
 
 // process_line file
 int				prepare_line(t_shell *shell);
+t_shell			*get_shell(t_shell *new_sh);
 
 // parser
 t_cmd			*mk_exec(void);
@@ -196,5 +199,6 @@ void			free_env(t_env *env);
 void			free_cmd(t_cmd *cmd);
 void			free_split(char **split);
 void			clean_exit(t_shell *shell);
+void			free_all(t_shell *shell);
 
 #endif

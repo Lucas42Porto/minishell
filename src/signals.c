@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 02:03:00 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/21 01:05:54 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/01 16:38:03 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,15 @@ static void	sigrestore(int sig)
 
 static void	sig_here_doc(int sig)
 {
-	if (sig != SIGINT)
-		return ;
-	exit(130);
+	t_shell	*shell;
+
+	if (sig == SIGINT)
+	{
+		shell = get_shell(NULL);
+		if (shell)
+			free_all(shell);
+		exit(130);
+	}
 }
 
 static void	sigint_ignore(int sig)

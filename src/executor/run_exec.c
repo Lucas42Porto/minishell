@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:58:55 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/29 16:59:49 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/01 23:19:38 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ static char	*get_path(t_shell *sh, char *cmd, char *path, char *path2)
 
 static void	check_exit_status(void)
 {
+	if (WIFEXITED(g_exit))
+		g_exit = WEXITSTATUS(g_exit);
+	else if (WIFSIGNALED(g_exit))
+		g_exit = 128 + WTERMSIG(g_exit);
 	if (g_exit == 11 || g_exit == 139)
 		ft_putendl_fd("Segmentation fault (core dumped)", STDERR_FILENO);
 	else if (g_exit == 8 || g_exit == 136)
@@ -101,7 +105,7 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 	int		expanded;
 
 	expand_argv(shell, cmd->argv, &expanded);
-	check_void(shell, cmd, expanded, shell->exp_quote);
+	check_void(shell, cmd, expanded, shell->flag_quote);
 	if (!cmd->argv[0])
 		return (g_exit = 0, (void)0);
 	if (run_builtin(shell, cmd))
@@ -114,11 +118,9 @@ void	run_exec(t_shell *shell, t_exec *cmd)
 		execve(path, cmd->argv, shell->envp);
 		check_execve_errors(shell, path);
 	}
+	if (shell->flag_pipe && !shell->flag_redir && !shell->flag_here)
+		free_all(shell);
 	waitpid(pid, &g_exit, 0);
-	if (WIFEXITED(g_exit))
-		g_exit = WEXITSTATUS(g_exit);
-	else if (WIFSIGNALED(g_exit))
-		g_exit = 128 + WTERMSIG(g_exit);
 	check_exit_status();
 	signal_handler(SIGRESTORE);
 }

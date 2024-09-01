@@ -14,6 +14,15 @@
 
 int			g_exit;
 
+t_shell	*get_shell(t_shell *new_sh)
+{
+	static t_shell	*shell = NULL;
+
+	if (new_sh)
+		shell = new_sh;
+	return (shell);
+}
+
 static void	get_userline(t_shell *shell, char *prompt)
 {
 	char	*tmp;
@@ -31,6 +40,7 @@ static int	run_ms(t_shell *shell)
 	signal_handler(SIGRESTORE);
 	shell->status = STOP;
 	get_userline(shell, NULL);
+	get_shell(shell);
 	if (shell->user_line && prepare_line(shell))
 	{
 		if (parse(shell))

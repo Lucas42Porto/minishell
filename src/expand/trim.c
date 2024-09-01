@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   trim.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:58:48 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/29 16:59:14 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/01 23:19:42 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	trim_quotes(t_shell *sh, char *arg, int *len)
 	{
 		if ((arg[i] == '"' || arg[i] == '\'') && !quote)
 		{
-			sh->exp_quote = 1;
+			sh->flag_quote = 1;
 			quote = arg[i];
 			ft_memmove(arg + i, arg + i + 1, *len - i);
 			(*len)--;

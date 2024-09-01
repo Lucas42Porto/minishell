@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 00:09:44 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/29 17:46:07 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/01 23:34:10 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	expand_heredoc(t_shell *sh, char **line)
+static void	expand_heredoc(t_shell *sh, char **line, int i)
 {
-	int		i;
 	int		j;
 	char	*tmp;
 
-	i = 0;
 	while ((*line)[i])
 	{
 		if ((*line)[i] == '$' && (*line)[i + 1] == '?')
@@ -28,7 +26,7 @@ static void	expand_heredoc(t_shell *sh, char **line)
 			free(tmp);
 		}
 		else if ((*line)[i] == '$' && ft_isalpha((*line)[i + 1]) \
-			&& !sh->exp_quote)
+			&& !sh->flag_quote)
 		{
 			j = i + 1;
 			while (ft_isalnum((*line)[j]) || (*line)[j] == '_')
@@ -36,6 +34,8 @@ static void	expand_heredoc(t_shell *sh, char **line)
 			tmp = ft_substr(*line, i + 1, j - i - 1);
 			expand(env_get(&sh->env, tmp), i, j, line);
 			free(tmp);
+			if (!(*line)[0])
+				i--;
 		}
 		i++;
 	}
@@ -61,7 +61,7 @@ static void	heredoc_reader(t_shell *shell, t_here *here, int fd)
 			free(line);
 			break ;
 		}
-		expand_heredoc(shell, &line);
+		expand_heredoc(shell, &line, 0);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
@@ -76,6 +76,7 @@ void	run_heredoc(t_shell *shell, t_here *here)
 	int		len;
 	pid_t	pid;
 
+	shell->flag_here = 1;
 	len = ft_strlen(here->eof);
 	trim_quotes(shell, here->eof, &len);
 	pid = check_fork();
@@ -93,4 +94,5 @@ void	run_heredoc(t_shell *shell, t_here *here)
 		run_cmd(shell, here->cmd);
 	dup2(here->fdin, STDIN_FILENO);
 	unlink("/tmp/here_doc");
+	shell->flag_here = 0;
 }

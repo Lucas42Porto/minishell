@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/18 23:33:07 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/29 18:25:12 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/01 23:19:26 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	specific_update(t_shell *sh, char **name, char **value)
 {
-	if (!sh->exp_quote && !ft_strcmp(*name, "HOME") \
+	if (!sh->flag_quote && !ft_strcmp(*name, "HOME") \
 		&& !ft_strcmp(*value, "~"))
 	{
 		free(*value);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
+/*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 01:44:46 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/29 15:26:24 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/31 11:00:28 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ms_exit(t_shell *shell, t_exec *cmd)
 		}
 	}
 	if (shell->status == CONTINUE && cmd->argv[1])
-		ft_atoi(cmd->argv[1]);
+		g_exit = ft_atoi(cmd->argv[1]);
 	if (!flag_exit || !ft_isdigit(cmd->argv[1][0]))
 		clean_exit(shell);
 }

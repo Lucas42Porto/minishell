@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 00:57:17 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/21 00:57:42 by resilva          ###   ########.fr       */
+/*   Updated: 2024/08/31 15:42:48 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	free_exec(t_exec *exec)
 	if (!exec)
 		return ;
 	if (exec->argv[0])
+	{
 		free(exec->argv[0]);
+		exec->argv[0] = NULL;
+	}
 	free(exec);
 	exec = NULL;
 }
@@ -28,7 +31,10 @@ static void	free_redir(t_redir *redir)
 		return ;
 	free_cmd(redir->cmd);
 	if (redir->file)
+	{
 		free(redir->file);
+		redir->file = NULL;
+	}
 	free(redir);
 	redir = NULL;
 }
@@ -39,7 +45,10 @@ static void	free_here(t_here *here)
 		return ;
 	free_cmd(here->cmd);
 	if (here->eof)
+	{
 		free(here->eof);
+		here->eof = NULL;
+	}
 	free(here);
 	here = NULL;
 }
@@ -66,4 +75,5 @@ void	free_cmd(t_cmd *cmd)
 		free_redir((t_redir *)cmd);
 	else if (cmd->type == EXEC)
 		free_exec((t_exec *)cmd);
+	cmd = NULL;
 }

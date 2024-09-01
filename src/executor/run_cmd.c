@@ -6,7 +6,7 @@
 /*   By: resilva <resilva@student.42porto.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 10:52:02 by lumarque          #+#    #+#             */
-/*   Updated: 2024/08/28 00:17:45 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/01 23:37:37 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static void	run_pipe(t_shell *shell, t_pipe *cmd, int *fd)
 	}
 	close_fds_and_sig_handler(fd, 0);
 	wait_children(shell);
+	shell->flag_pipe = 0;
 }
 
 void	run_cmd(t_shell *shell, t_cmd *cmd)
@@ -71,9 +72,8 @@ void	run_cmd(t_shell *shell, t_cmd *cmd)
 		run_exec(shell, (t_exec *)cmd);
 	else if (cmd->type == REDIR)
 		run_redir(shell, (t_redir *)cmd);
-	else if (cmd->type == HEREDOC)
-		run_heredoc(shell, (t_here *)cmd);
 	else if (cmd->type == PIPE)
 		run_pipe(shell, (t_pipe *)cmd, fd);
-	shell->flag_pipe = 0;
+	else if (cmd->type == HEREDOC)
+		run_heredoc(shell, (t_here *)cmd);
 }
