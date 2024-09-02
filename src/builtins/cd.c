@@ -6,7 +6,7 @@
 /*   By: resilva < resilva@student.42porto.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 22:23:38 by resilva           #+#    #+#             */
-/*   Updated: 2024/08/29 19:04:53 by resilva          ###   ########.fr       */
+/*   Updated: 2024/09/02 10:27:36 by resilva          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static void	ex_cd(t_shell *shell, char *path, char *tmp)
 		shell->oldpwd = ft_strdup(tmp);
 		update_env(&shell->env, "OLDPWD", shell->oldpwd);
 		newpwd = getcwd(NULL, 0);
-		update_env(&shell->env, "PWD", newpwd);
+		if (env_get(&shell->env, "PWD"))
+			update_env(&shell->env, "PWD", newpwd);
 		free(newpwd);
 	}
 	else if (shell->status == CONTINUE)
@@ -59,7 +60,8 @@ static char	*prepare_cd(t_shell *shell, t_exec *cmd)
 		path = cmd->argv[i];
 	if (args > 1)
 		print_error(shell, "cd", "too many arguments", 1);
-	else if (!env_get(&shell->env, "HOME"))
+	else if ((!env_get(&shell->env, "HOME") && !path) \
+		|| (!env_get(&shell->env, "HOME") && !path[0]))
 		print_error(shell, "cd", "HOME not set", 1);
 	return (path);
 }

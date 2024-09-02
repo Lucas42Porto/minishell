@@ -61,7 +61,7 @@ all: ${NAME}
 
 clean:
 	@${MAKE} ${LIBFT_PATH} clean $(DN)
-	@${RM} ${OBJ}
+	@${RM} ${OBJ} output.log readline.supp
 	@$(CLEANED)
 
 fclean: clean
